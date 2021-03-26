@@ -12,4 +12,8 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Memo.DataAccess\Memo.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

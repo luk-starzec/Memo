@@ -1,4 +1,5 @@
 using Memo.BlazorApp.Data;
+using Memo.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Memo.BlazorApp
@@ -29,6 +31,10 @@ namespace Memo.BlazorApp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddScoped(s => new HttpClient { BaseAddress = new Uri(s.GetRequiredService<NavigationManager>().BaseUri) });
+
+            services.AddDataAccessServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

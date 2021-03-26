@@ -1,9 +1,37 @@
 ﻿@page "/view/{url}"
 
+@inject NavigationManager navigationManager
+@inject IMemosRepo memosRepo
+
 <h3>Preview</h3>
+
+@if (memoModel is null)
+{
+    <p>loading...</p>
+}
+else
+{
+    <div>
+        Title: @memoModel.Title <br />
+        Url: @memoModel.Url <br />
+        Created: @memoModel.Created.ToString("yyyy-MM-dd HH:mm:ss") <br />
+        ValidTo: @memoModel.ValidTo?.ToString("yyyy-MM-dd") <br />
+    </div>
+}
 
 @code {
     [Parameter]
     public string Url { get; set; }
+
+    MemoModel memoModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var memo = await memosRepo.GetMemoByUrl(Url);
+        if (memo is not null)
+            memoModel = memo;
+        else
+            navigationManager.NavigateTo("/404");
+    }
 
 }
