@@ -3,27 +3,40 @@
 @inject NavigationManager navigationManager
 @inject IMemosRepo memosRepo
 
-<h3>Preview</h3>
+<div class="preview-page__wrapper">
 
-@if (memoModel is null)
-{
-    <p>loading...</p>
-}
-else
-{
-    <div>
-        Title: @memoModel.Title <br />
-        Url: @memoModel.Url <br />
-        Created: @memoModel.Created.ToString("yyyy-MM-dd HH:mm:ss") <br />
-        ValidTo: @memoModel.ValidTo?.ToString("yyyy-MM-dd") <br />
-    </div>
-}
+    @if (memoModel is null)
+    {
+        <img class="preview-page__loader" src="/assets/loader.svg" alt="loading..." />
+    }
+    else
+    {
+
+        @if (isLoggedIn)
+        {
+            <MemoPreview Memo="@memoModel" />
+
+            <img class="preview-page__background-image" src="/assets/preview-image.svg" />
+        }
+        else
+        {
+            <LogIn />
+
+            <img class="preview-page__background-image" src="/assets/login-image.svg" />
+        }
+
+
+    }
+
+</div>
 
 @code {
     [Parameter]
     public string Url { get; set; }
 
     MemoModel memoModel;
+
+    bool isLoggedIn = false;
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,7 +1,65 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@inject NavigationManager navigationManager;
 
-Welcome to your new app.
+<div class="index-page__wrapper">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <div class="index-page__logo"></div>
+
+    <button class="index-page__add-button" title="add new memo" @onclick="OnClickAdd">
+        <img src="/assets/add-icon.svg" />
+        <span>Add new</span>
+    </button>
+
+    <div class="index-page__search-wrapper">
+
+        <div class="index-page__search-label">
+            Go to your memo
+        </div>
+
+        <input class="index-page__search-input" type="text" placeholder="title"
+               value="@title" @oninput="OnInput" @onkeydown="OnKeyDown" />
+
+        <button class="index-page__search-button" disabled=@buttonDisabled @onclick="OnClickGoTo" title="go to memo">
+            <img src="/assets/goto-icon.svg" / alt="go to">
+        </button>
+
+    </div>
+
+    <div class="index-page__footer">
+        © 2021
+    </div>
+
+    <img class="index-page__background-image" src="/assets/index-image.svg"/>
+
+</div>
+
+@code{
+
+    string title;
+
+    bool buttonDisabled = true;
+
+    void OnInput(ChangeEventArgs e)
+    {
+        title = e.Value as string;
+        buttonDisabled = string.IsNullOrWhiteSpace(title);
+    }
+
+    void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            OnClickGoTo();
+    }
+
+    void OnClickGoTo()
+    {
+        var url = Helpers.GetUrl(title);
+        navigationManager.NavigateTo($"/view/{url}");
+    }
+
+    void OnClickAdd()
+    {
+        navigationManager.NavigateTo($"/add");
+    }
+}

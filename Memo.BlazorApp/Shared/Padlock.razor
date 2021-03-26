@@ -1,0 +1,15 @@
+﻿
+<div class="@css">
+    <SvgImage SvgUrl="/assets/padlock-icon.svg" />
+</div>
+
+@code {
+    [Parameter]
+    public bool Opened { get; set; }
+    [Parameter]
+    public bool Error { get; set; }
+
+    string css => Opened
+        ? "padlock__wrapper padlock__wrapper--opened"
+        : Error ? "padlock__wrapper padlock__wrapper--error" : "padlock__wrapper";
+}

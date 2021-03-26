@@ -1,0 +1,18 @@
+﻿
+<div class="memo-preview__wrapper">
+
+    <div>
+        Title: @Memo.Title <br />
+        Url: @Memo.Url <br />
+        Created: @Memo.Created.ToString("yyyy-MM-dd HH:mm:ss") <br />
+        ValidTo: @Memo.ValidTo?.ToString("yyyy-MM-dd") <br />
+    </div>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public MemoModel Memo { get; set; }
+
+}

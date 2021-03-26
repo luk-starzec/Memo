@@ -1,7 +1,52 @@
 ﻿@page "/add"
 
-<h3>Add</h3>
+
+<div class="add-page__wrapper">
+
+    <div class="add-page__logo"></div>
+
+    <EditForm class="add-page__form" Model="@memo" OnValidSubmit="AddMemo">
+        <DataAnnotationsValidator />
+
+        <input type="text" class="add-page__url" value="@memo.Url" placeholder="generated url" readonly />
+
+        <InputOnInput class="add-page__title" @bind-Value="@memo.Title" ValidationFunction="()=>ValidateField(nameof(memo.Title))" />
+        <ValidationMessage For="() => memo.Title" />
+
+        <InputTextArea class="add-page__message" @bind-Value="memo.Message" placeholder="message" />
+        <ValidationMessage For="() => memo.Message" />
+
+        <InputCheckbox class="add-page__valid-to-checkbox" @bind-Value="memo.EnabledValidTo">Valid to</InputCheckbox>
+        <InputDate class="add-page__valid-to-date" @bind-Value="memo.ValidTo" />
+
+        <InputOnInput class="add-page__pin" @bind-Value="memo.Pin" InputType="password" ValidationFunction="()=>ValidateField(nameof(memo.Pin))" />
+        <ValidationMessage For="() => memo.Pin" />
+
+        <InputOnInput class="add-page__pin" @bind-Value="memo.ConfirmPin" InputType="password" ValidationFunction="()=>ValidateField(nameof(memo.ConfirmPin))" />
+        <ValidationMessage For="() => memo.ConfirmPin" />
+
+        <button type="submit" class="add-page__add-button">
+            <img src="/assets/add-icon.svg" />
+            <span>Add memo</span>
+        </button>
+
+    </EditForm>
+
+    <img class="add-page__background-image" src="/assets/add-image.svg" />
+
+</div>
 
 @code {
+    MemoModel memo = new MemoModel();
+
+    bool ValidateField(string field)
+    {
+        var errors = memo.Validate();
+        return !errors.Where(r => r.MemberNames.Contains(field)).Any();
+    }
+
+    async Task AddMemo(EditContext editContext)
+    {
+    }
 
 }

@@ -1,0 +1,49 @@
+﻿
+<div class="log-in__wrapper">
+
+    <Padlock Error="false" Opened="false" />
+
+    <div class="log-in__message">@message</div>
+
+    <input type="password" class="log-in__pin" placeholder="PIN" />
+
+    <div class="log-in__buttons-wrapper">
+
+        @for (int i = 1; i < 10; i++)
+        {
+            int index = i;
+            <button class="log-in__button" @onclick="()=>OnClickNumber(index)">@i</button>
+        }
+
+        <button class="log-in__button log-in__button--ok" @onclick="OnClickOk">
+            <img src="/assets/check-icon.svg" />
+        </button>
+
+        <button class="log-in__button" @onclick="()=>OnClickNumber(0)">0</button>
+
+        <button class="log-in__button log-in__button--clear" @onclick="OnClickClear">
+            <img src="/assets/x-icon.svg" />
+        </button>
+    </div>
+
+</div>
+
+@code {
+
+    string message = "Authorization required";
+
+    void OnClickNumber(int number)
+    {
+    }
+
+    void OnClickOk()
+    {
+
+    }
+
+    void OnClickClear()
+    {
+
+    }
+
+}

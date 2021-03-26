@@ -1,0 +1,50 @@
+﻿@inherits InputText
+
+<div class="input-text__wrapper">
+
+    <input @attributes="AdditionalAttributes"
+           class="@CssClass @cssValidation"
+           value="@CurrentValue"
+           type="@InputType"
+           @oninput="EventCallback.Factory.CreateBinder<string>(this, __value => CurrentValueAsString = __value, CurrentValueAsString)"
+           @onkeyup="Validate" />
+
+    @if (showValidationMarker)
+    {
+        <img class="input-text__validation-marker" src="@srcValidationMarker" />
+    }
+
+</div>
+
+@code{
+    [Parameter]
+    public string InputType { get; set; } = "text";
+    [Parameter]
+    public Func<bool?> ValidationFunction { get; set; }
+
+
+    bool showValidationMarker = false;
+    bool isValid = true;
+    string srcValidationMarker => isValid ? "/assets/check-icon.svg" : "/assets/x-icon.svg";
+
+
+    string cssValidation = "";
+
+    string cssValid = "input-text__marker--valid";
+    string cssInvalid = "input-text__marker--invalid";
+
+    void Validate(KeyboardEventArgs eventArgs)
+    {
+        if (string.IsNullOrEmpty(CurrentValueAsString))
+        {
+            showValidationMarker = false;
+            //cssValidation = string.Empty;
+            return;
+        }
+
+        isValid = ValidationFunction?.Invoke() ?? true;
+        showValidationMarker = true;
+
+        //cssValidation = isValid ? cssValid : cssInvalid;
+    }
+}

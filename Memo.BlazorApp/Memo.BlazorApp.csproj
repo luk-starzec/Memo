@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Memo.DataAccess\Memo.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\" />
+  </ItemGroup>
+
 </Project>
