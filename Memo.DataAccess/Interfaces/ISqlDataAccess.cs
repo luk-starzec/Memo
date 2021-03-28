@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Memo.DataAccess
+namespace Memo.DataAccess.Interfaces
 {
     public interface ISqlDataAccess
     {

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Memo.DataAccess.Models
 {
-    public class MemoModel
+    public class MemoNewModel
     {
-        public string Url => GetUrl();
+        [Required]
+        public string Url { get; set; }
 
         [Required]
         [MinLength(5)]
@@ -16,18 +17,17 @@ namespace Memo.DataAccess.Models
 
         [Required]
         [MinLength(1)]
-        public string Message { get; set; }
-
-        public DateTime Created { get; set; }
+        public string Text { get; set; }
 
         public bool EnabledValidTo { get; set; }
+        [CheckValidTo]
         public DateTime? ValidTo { get; set; }
 
-        [RegularExpression("([0-9]+)")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Pin should be a number")]
         [MinLength(4)]
         public string Pin { get; set; }
 
-        [RegularExpression("([0-9]+)")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Pin should be a number")]
         [Compare(nameof(Pin), ErrorMessage = "Fields Pin and Confirm must be the same")]
         public string ConfirmPin { get; set; }
 
@@ -45,8 +45,6 @@ namespace Memo.DataAccess.Models
 
             return results;
         }
-
-        private string GetUrl() => Title?.Replace(" ", "-").Trim();
 
     }
 }

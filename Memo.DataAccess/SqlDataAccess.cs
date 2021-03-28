@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Memo.DataAccess.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

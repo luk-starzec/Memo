@@ -1,4 +1,5 @@
-﻿using Memo.DataAccess.Models;
+﻿using Memo.DataAccess.Interfaces;
+using Memo.DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,42 +17,112 @@ namespace Memo.DataAccess
             this.db = db;
         }
 
-        public async Task<List<MemoModel>> GetMemos()
+        //public async Task<List<MemoEditModel>> GetMemos()
+        //{
+        //    var sql = "select * from memo.Memos";
+
+        //    var rows = await db.LoadData<MemoRow, dynamic>(sql, new { });
+
+        //    return Rows2Models(rows).ToList();
+        //}
+
+        public async Task<MemoReadModel> GetMemoReadModel(string url)
         {
-            var sql = "select * from dbo.Memos";
+            var row = await GetMemoRow(url);
 
-            var rows = await db.LoadData<MemoRow, dynamic>(sql, new { });
-
-            return Rows2Models(rows).ToList();
-        }
-        public async Task<MemoModel> GetMemoByTitle(string title)
-        {
-            var sql = "select * from dbo.Memos m where m.Title = @title";
-
-            var rows = await db.LoadData<MemoRow, dynamic>(sql, new { title = title });
-
-            return Rows2Models(rows).FirstOrDefault();
-        }
-
-        public async Task<MemoModel> GetMemoByUrl(string url)
-        {
-            var sql = "select * from dbo.Memos m where m.Url = @url";
-
-            var rows = await db.LoadData<MemoRow, dynamic>(sql, new { url = url });
-
-            return Rows2Models(rows).FirstOrDefault();
+            return row is null ? null : Row2ReadModel(row);
         }
 
-        private MemoModel Row2Model(MemoRow row)
-            => new MemoModel
+        public async Task<MemoEditModel> GetMemoEditModel(string url, string pin)
+        {
+            var row = await GetMemoRow(url);
+
+            if (row is null)
+                return null;
+
+            return Row2EditModel(row, pin);
+        }
+
+        public async Task<bool> CreateMemo(MemoNewModel memo)
+        {
+            var encrypted = AesHelper.Encrypt(memo.Text, memo.Pin);
+
+            var sql =
+                "insert into memo.Memos(Url, Title, Created, ValidTo, IV, Data) values (@url, @title, GETDATE(), @validTo,  @iv, @data)";
+            var param = new
             {
-                Title = row.Title,
-                Created = row.Created,
-                EnabledValidTo = row.ValidTo.HasValue,
-                ValidTo = row.ValidTo,
+                url = memo.Url,
+                title = memo.Title,
+                validTo = memo.ValidTo,
+                iv = encrypted.iv,
+                data = encrypted.data,
             };
 
-        private IEnumerable<MemoModel> Rows2Models(IEnumerable<MemoRow> rows)
-            => rows.Select(r => Row2Model(r));
+            await db.SaveData<dynamic>(sql, param);
+
+            return true;
+        }
+
+
+        public async Task<bool> UpdateMemo(MemoEditModel memo, string pin)
+        {
+            var encrypted = AesHelper.Encrypt(memo.Text, pin);
+
+            var sql = "update memo.Memos set IV = @iv, Data = @data, ValidTo = @validTo where Url = @url";
+            var param = new
+            {
+                url = memo.Url,
+                validTo = memo.ValidTo,
+                iv = encrypted.iv,
+                data = encrypted.data,
+            };
+
+            await db.SaveData<dynamic>(sql, param);
+
+            return true;
+        }
+
+        public async Task<bool> DeleteMemo(string url)
+        {
+            var sql = "delete memo.Memos where Url = @url";
+            var param = new { url = url };
+
+            await db.SaveData<dynamic>(sql, param);
+
+            return true;
+        }
+
+        private async Task<MemoRow> GetMemoRow(string url)
+        {
+            var sql =
+                "select * from memo.Memos m where m.Url = @url and (m.ValidTo is null or m.ValidTo >= cast(GETDATE() as date))";
+            var param = new { url = url };
+
+            return (await db.LoadData<MemoRow, dynamic>(sql, param)).FirstOrDefault();
+        }
+
+        private MemoEditModel Row2EditModel(MemoRow row, string pin)
+        {
+            var text = AesHelper.Decrypt(row.Data, row.IV, pin);
+            return text is null
+                ? null
+                : new MemoEditModel
+                {
+                    Url = row.Url,
+                    Title = row.Title,
+                    EnabledValidTo = row.ValidTo.HasValue,
+                    ValidTo = row.ValidTo,
+                    Text = text,
+                };
+        }
+        private MemoReadModel Row2ReadModel(MemoRow row)
+            => new MemoReadModel
+            {
+                Url = row.Url,
+                Title = row.Title,
+                EncryptedData = row.Data,
+                IV = row.IV,
+                Created = row.Created,
+            };
     }
 }
