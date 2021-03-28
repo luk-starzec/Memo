@@ -1,10 +1,34 @@
 ﻿
 <div class="memo-edit__wrapper">
-    
-    <h3>preview</h3>
+
+    <h3 class="memo-edit__title">
+        @Memo.Title
+    </h3>
+
+    <EditForm class="memo-edit__form" Model="@Memo" OnValidSubmit="Save">
+        <DataAnnotationsValidator />
+
+        <InputTextArea class="memo-edit__text" @bind-Value="Memo.Text" placeholder="message" />
+        <ValidationMessage For="() => Memo.Text" />
+
+        <InputCheckbox class="memo-edit__valid-to-checkbox" @bind-Value="Memo.EnabledValidTo">Valid to</InputCheckbox>
+        <InputDate class="memo-edit__valid-to-date" @bind-Value="Memo.ValidTo" />
+
+        <button type="submit" class="memo-edit___save-button">
+            <img src="/assets/check-icon.svg" />
+            <span>Save</span>
+        </button>
+
+    </EditForm>
 
 </div>
 
 @code {
+    [Parameter]
+    public MemoEditModel Memo { get; set; }
+    [Parameter]
+    public EventCallback<MemoEditModel> OnSave { get; set; }
+
+    async Task Save() => await OnSave.InvokeAsync(Memo);
 
 }

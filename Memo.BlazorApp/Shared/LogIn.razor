@@ -1,11 +1,11 @@
 ﻿
 <div class="log-in__wrapper">
 
-    <Padlock Error="false" Opened="false" />
+    <Padlock Error="@padlockError" Opened="@padlockOpened" />
 
-    <div class="log-in__message">@message</div>
+    <div class="@cssMessage">@message</div>
 
-    <input type="password" class="log-in__pin" placeholder="PIN" />
+    <input type="password" class="log-in__pin" @bind="@pin" placeholder="PIN" />
 
     <div class="log-in__buttons-wrapper">
 
@@ -24,26 +24,36 @@
         <button class="log-in__button log-in__button--clear" @onclick="OnClickClear">
             <img src="/assets/x-icon.svg" />
         </button>
+
     </div>
 
 </div>
 
 @code {
+    [Parameter]
+    public EnumAuthorizationState AuthorizationState { get; set; }
+    [Parameter]
+    public EventCallback<string> OnLogIn { get; set; }
 
-    string message = "Authorization required";
+    public string pin;
 
-    void OnClickNumber(int number)
+    string message => AuthorizationState switch
     {
-    }
+        EnumAuthorizationState.Denied => "Access denied",
+        EnumAuthorizationState.Granted => "Access granted",
+        _ => "Authorization required"
+    };
+    string cssMessage
+        => $"log-in__message {(AuthorizationState == EnumAuthorizationState.Denied ? "log-in__message--error" : "")} {(AuthorizationState == EnumAuthorizationState.Granted ? "log-in__message--ok" : "")}";
 
-    void OnClickOk()
-    {
 
-    }
+    bool padlockError => AuthorizationState == EnumAuthorizationState.Denied;
+    bool padlockOpened => AuthorizationState == EnumAuthorizationState.Granted;
 
-    void OnClickClear()
-    {
+    void OnClickNumber(int number) => pin += number.ToString();
 
-    }
+    void OnClickClear() => pin = string.Empty;
+
+    async Task OnClickOk() => await OnLogIn.InvokeAsync(pin);
 
 }

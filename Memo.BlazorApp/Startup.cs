@@ -33,7 +33,7 @@ namespace Memo.BlazorApp
             services.AddSingleton<WeatherForecastService>();
 
             services.AddScoped(s => new HttpClient { BaseAddress = new Uri(s.GetRequiredService<NavigationManager>().BaseUri) });
-
+            services.AddScoped<ITokenManager, TokenManager>();
             services.AddDataAccessServices();
         }
 

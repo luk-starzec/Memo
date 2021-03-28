@@ -1,5 +1,9 @@
 ﻿@page "/add"
 
+@inject IMemosRepo memosRepo
+@inject ITokenManager tokenManager;
+@inject NavigationManager navigationManager
+
 
 <div class="add-page__wrapper">
 
@@ -13,8 +17,8 @@
         <InputOnInput class="add-page__title" @bind-Value="@memo.Title" ValidationFunction="()=>ValidateField(nameof(memo.Title))" />
         <ValidationMessage For="() => memo.Title" />
 
-        <InputTextArea class="add-page__message" @bind-Value="memo.Message" placeholder="message" />
-        <ValidationMessage For="() => memo.Message" />
+        <InputTextArea class="add-page__text" @bind-Value="memo.Text" placeholder="message" />
+        <ValidationMessage For="() => memo.Text" />
 
         <InputCheckbox class="add-page__valid-to-checkbox" @bind-Value="memo.EnabledValidTo">Valid to</InputCheckbox>
         <InputDate class="add-page__valid-to-date" @bind-Value="memo.ValidTo" />
@@ -37,16 +41,31 @@
 </div>
 
 @code {
-    MemoModel memo = new MemoModel();
+    MemoNewModel memo = new MemoNewModel();
 
     bool ValidateField(string field)
     {
+        if (field == nameof(memo.Title))
+            GenerateUrl();
+
         var errors = memo.Validate();
         return !errors.Where(r => r.MemberNames.Contains(field)).Any();
     }
 
+    void GenerateUrl()
+    {
+        memo.Url = Helpers.GetUrl(memo.Title);
+        StateHasChanged();
+    }
+
     async Task AddMemo(EditContext editContext)
     {
+        if (await memosRepo.CreateMemo(memo))
+        {
+            var token = tokenManager.CreateToken(memo.Pin);
+            navigationManager.NavigateTo($"/view/{memo.Url}/{token}");
+        }
+        // TODO error handling
     }
 
 }

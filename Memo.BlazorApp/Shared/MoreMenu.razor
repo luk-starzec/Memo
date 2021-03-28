@@ -1,0 +1,69 @@
+﻿
+<button class="@cssMenuButton" @onclick="ChangeMenuVisibility">:</button>
+
+@if (IsExpanded)
+{
+<ul class="more-menu__list">
+
+    @if (IsEditMode)
+    {
+        <li class="more-menu__list-item" @onclick="OnCancelEdit">
+            Cancel edit
+        </li>
+    }
+    else
+    {
+        <li class="more-menu__list-item" @onclick="OnEdit">
+            Edit
+        </li>
+    }
+
+    <li class="@cssItemRemove" @onclick="() => isRemoveExpanded = true">
+        Remove
+    </li>
+
+    @if (isRemoveExpanded)
+    {
+        <li class="more-menu__remove-question">
+            Are you sure?
+
+            <button class="more-menu__question-button" @onclick="() => isRemoveExpanded = false">
+                No
+            </button>
+
+            <button class="more-menu__question-button more-menu__question-button--yes" @onclick="OnRemove">
+                Yes
+            </button>
+
+        </li>
+    }
+</ul>
+}
+
+@code {
+    [Parameter]
+    public bool IsExpanded { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsExpandedChanged { get; set; }
+    [Parameter]
+    public EventCallback OnEdit { get; set; }
+    [Parameter]
+    public EventCallback OnCancelEdit { get; set; }
+    [Parameter]
+    public EventCallback OnRemove { get; set; }
+    [Parameter]
+    public bool IsEditMode { get; set; }
+
+    bool isRemoveExpanded = false;
+
+    string cssMenuButton => $"more-menu__menu-button {(IsExpanded ? "more-menu__menu-button--expanded" : "")}";
+    string cssItemRemove => $"more-menu__list-item {(isRemoveExpanded ? "more-menu__list-item--selected" : "")}";
+
+    async Task ChangeMenuVisibility()
+    {
+        IsExpanded = !IsExpanded;
+        await IsExpandedChanged.InvokeAsync(IsExpanded);
+        if (IsExpanded)
+            isRemoveExpanded = false;
+    }
+}

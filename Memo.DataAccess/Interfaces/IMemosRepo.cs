@@ -9,7 +9,7 @@ namespace Memo.DataAccess.Interfaces
         Task<MemoReadModel> GetMemoReadModel(string url);
         Task<MemoEditModel> GetMemoEditModel(string url, string pin);
         Task<bool> CreateMemo(MemoNewModel memo);
-        Task<bool> UpdateMemo(MemoEditModel memo, string pin);
+        Task<MemoReadModel> UpdateMemo(MemoEditModel memo, string pin);
         Task<bool> DeleteMemo(string url);
     }
 }

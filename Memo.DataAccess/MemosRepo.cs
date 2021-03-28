@@ -64,7 +64,7 @@ namespace Memo.DataAccess
         }
 
 
-        public async Task<bool> UpdateMemo(MemoEditModel memo, string pin)
+        public async Task<MemoReadModel> UpdateMemo(MemoEditModel memo, string pin)
         {
             var encrypted = AesHelper.Encrypt(memo.Text, pin);
 
@@ -79,7 +79,7 @@ namespace Memo.DataAccess
 
             await db.SaveData<dynamic>(sql, param);
 
-            return true;
+            return await GetMemoReadModel(memo.Url);
         }
 
         public async Task<bool> DeleteMemo(string url)

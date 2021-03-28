@@ -2,10 +2,12 @@
 <div class="memo-preview__wrapper">
 
     <div>
-        Title: @Memo.Title <br />
         Url: @Memo.Url <br />
+        Title: @Memo.Title <br />
         Created: @Memo.Created.ToString("yyyy-MM-dd HH:mm:ss") <br />
-        ValidTo: @Memo.ValidTo?.ToString("yyyy-MM-dd") <br />
+        Text: @Memo.Text <br />
+        IV: @Memo.IV <br />
+        Data: @Memo.EncryptedData <br />
     </div>
 
 </div>
@@ -13,6 +15,6 @@
 
 @code {
     [Parameter]
-    public MemoModel Memo { get; set; }
+    public MemoReadModel Memo { get; set; }
 
 }
