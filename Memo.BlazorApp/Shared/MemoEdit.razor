@@ -11,11 +11,16 @@
         <InputTextArea class="memo-edit__text" @bind-Value="Memo.Text" placeholder="message" />
         <ValidationMessage For="() => Memo.Text" />
 
-        <InputCheckbox class="memo-edit__valid-to-checkbox" @bind-Value="Memo.EnabledValidTo">Valid to</InputCheckbox>
-        <InputDate class="memo-edit__valid-to-date" @bind-Value="Memo.ValidTo" />
+        <div class="memo-edit__form-row">
+            <label class="memo-edit__label">
+                Expires:
+                <InputCheckbox class="memo-edit__expires-checkbox" @bind-Value="Memo.EnabledValidTo" />
+            </label>
+            <InputDate class="memo-edit__expires-date" @bind-Value="Memo.ValidTo" />
+        </div>
 
-        <button type="submit" class="memo-edit___save-button">
-            <img src="/assets/check-icon.svg" />
+        <button type="submit" class="memo-edit__save-button">
+            <SvgImage SvgUrl="/assets/check-icon.svg" />
             <span>Save</span>
         </button>
 

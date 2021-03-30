@@ -1,6 +1,28 @@
 ﻿
 <div class="memo-preview__wrapper">
 
+    <div class="memo-preview__title">
+        @Memo.Title
+    </div>
+
+    <div class="memo-preview__text">
+        @Memo.Text
+    </div>
+
+    <div class="memo-preview__date">
+        <span class="memo-preview__date-label">
+            Created:
+        </span>
+        @Memo.Created.ToShortDateString()
+    </div>
+
+    <div class="memo-preview__date">
+        <span class="memo-preview__date-label">
+            Expires:
+        </span>
+        @Memo.Created.ToShortDateString()
+    </div>
+
     <div>
         Url: @Memo.Url <br />
         Title: @Memo.Title <br />

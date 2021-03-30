@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memo.BlazorApp", "Memo.BlazorApp\Memo.BlazorApp.csproj", "{0D2D27CA-B82D-4650-9C5E-EFE232DF9C40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memo.DataAccess", "Memo.DataAccess\Memo.DataAccess.csproj", "{EE37AC49-B29F-413D-B937-9F318F20C00F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memo.DataAccess", "Memo.DataAccess\Memo.DataAccess.csproj", "{EE37AC49-B29F-413D-B937-9F318F20C00F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

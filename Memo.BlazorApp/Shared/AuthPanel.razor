@@ -1,28 +1,28 @@
 ﻿
-<div class="log-in__wrapper">
+<div class="auth-panel__wrapper">
 
     <Padlock Error="@padlockError" Opened="@padlockOpened" />
 
     <div class="@cssMessage">@message</div>
 
-    <input type="password" class="log-in__pin" @bind="@pin" placeholder="PIN" />
+    <input type="password" class="auth-panel__pin" @bind="@pin" placeholder="PIN" />
 
-    <div class="log-in__buttons-wrapper">
+    <div class="auth-panel__buttons-wrapper">
 
         @for (int i = 1; i < 10; i++)
         {
             int index = i;
-            <button class="log-in__button" @onclick="()=>OnClickNumber(index)">@i</button>
+            <button class="auth-panel__button" @onclick="()=>OnClickNumber(index)">@i</button>
         }
 
-        <button class="log-in__button log-in__button--ok" @onclick="OnClickOk">
-            <img src="/assets/check-icon.svg" />
+        <button class="auth-panel__button auth-panel__button--clear" @onclick="OnClickClear">
+            <img src="/assets/x-icon.svg" />
         </button>
 
-        <button class="log-in__button" @onclick="()=>OnClickNumber(0)">0</button>
+        <button class="auth-panel__button" @onclick="()=>OnClickNumber(0)">0</button>
 
-        <button class="log-in__button log-in__button--clear" @onclick="OnClickClear">
-            <img src="/assets/x-icon.svg" />
+        <button class="auth-panel__button auth-panel__button--ok" @onclick="OnClickOk">
+            <img src="/assets/check-icon.svg" />
         </button>
 
     </div>
@@ -39,12 +39,13 @@
 
     string message => AuthorizationState switch
     {
+        EnumAuthorizationState.Checking => "Checking...",
         EnumAuthorizationState.Denied => "Access denied",
         EnumAuthorizationState.Granted => "Access granted",
         _ => "Authorization required"
     };
     string cssMessage
-        => $"log-in__message {(AuthorizationState == EnumAuthorizationState.Denied ? "log-in__message--error" : "")} {(AuthorizationState == EnumAuthorizationState.Granted ? "log-in__message--ok" : "")}";
+        => $"auth-panel__message {(AuthorizationState == EnumAuthorizationState.Denied ? "auth-panel__message--error" : "")} {(AuthorizationState == EnumAuthorizationState.Granted ? "auth-panel__message--ok" : "")}";
 
 
     bool padlockError => AuthorizationState == EnumAuthorizationState.Denied;

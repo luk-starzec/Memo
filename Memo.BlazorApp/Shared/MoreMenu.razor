@@ -1,44 +1,52 @@
 ﻿
-<button class="@cssMenuButton" @onclick="ChangeMenuVisibility">:</button>
+<div class="more-menu__wrapper">
 
-@if (IsExpanded)
-{
-<ul class="more-menu__list">
+    <button class="@cssMenuButton" @onclick="ChangeMenuVisibility" title="more options">
+        <img src="/assets/more-icon.svg" alt="options" />
+    </button>
 
-    @if (IsEditMode)
+    @if (IsExpanded)
     {
-        <li class="more-menu__list-item" @onclick="OnCancelEdit">
-            Cancel edit
-        </li>
+        <ul class="more-menu__list">
+
+            @if (IsEditMode)
+            {
+                <li class="more-menu__list-item" @onclick="OnCancelEdit">
+                    Cancel edit
+                </li>
+            }
+            else
+            {
+                <li class="more-menu__list-item" @onclick="OnEdit">
+                    Edit
+                </li>
+            }
+
+            <li class="@cssItemRemove" @onclick="() => isRemoveExpanded = true">
+                Remove
+            </li>
+
+            @if (isRemoveExpanded)
+            {
+                <li class="more-menu__remove-question">
+
+                    <span>
+                        Are you sure?
+                    </span>
+
+                    <button class="more-menu__question-button" @onclick="() => isRemoveExpanded = false">
+                        No
+                    </button>
+
+                    <button class="more-menu__question-button more-menu__question-button--yes" @onclick="OnRemove">
+                        Yes
+                    </button>
+
+                </li>
+            }
+        </ul>
     }
-    else
-    {
-        <li class="more-menu__list-item" @onclick="OnEdit">
-            Edit
-        </li>
-    }
-
-    <li class="@cssItemRemove" @onclick="() => isRemoveExpanded = true">
-        Remove
-    </li>
-
-    @if (isRemoveExpanded)
-    {
-        <li class="more-menu__remove-question">
-            Are you sure?
-
-            <button class="more-menu__question-button" @onclick="() => isRemoveExpanded = false">
-                No
-            </button>
-
-            <button class="more-menu__question-button more-menu__question-button--yes" @onclick="OnRemove">
-                Yes
-            </button>
-
-        </li>
-    }
-</ul>
-}
+</div>
 
 @code {
     [Parameter]

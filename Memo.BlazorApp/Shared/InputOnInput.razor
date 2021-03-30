@@ -6,6 +6,7 @@
            class="@CssClass @cssValidation"
            value="@CurrentValue"
            type="@InputType"
+           placeholder="@placeholder"
            @oninput="EventCallback.Factory.CreateBinder<string>(this, __value => CurrentValueAsString = __value, CurrentValueAsString)"
            @onkeyup="Validate" />
 
@@ -21,6 +22,8 @@
     public string InputType { get; set; } = "text";
     [Parameter]
     public Func<bool?> ValidationFunction { get; set; }
+    [Parameter]
+    public string placeholder { get; set; }
 
 
     bool showValidationMarker = false;

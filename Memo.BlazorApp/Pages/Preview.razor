@@ -7,6 +7,8 @@
 
 <div class="preview-page__wrapper">
 
+    <Logo class="preview-page__logo" />
+
     @if (memoModel is null)
     {
         <img class="preview-page__loader" src="/assets/loader.svg" alt="loading..." />
@@ -31,7 +33,7 @@
         }
         else
         {
-            <LogIn AuthorizationState="@authorizationState" OnLogIn="LogIn" />
+            <AuthPanel AuthorizationState="@authorizationState" OnLogIn="LogIn" />
 
             <img class="preview-page__background-image" src="/assets/login-image.svg" />
         }
@@ -40,7 +42,7 @@
 
 </div>
 
-<div class="@cssMask" @onclick="() => isMenuExpanded=false">XXX</div>
+<div class="@cssMask" @onclick="() => isMenuExpanded=false"></div>
 
 @code {
     [Parameter]
@@ -70,32 +72,35 @@
             navigationManager.NavigateTo("/404");
 
         if (Token is not null)
-            TokenLogIn(Token.Value);
+            await TokenLogIn(Token.Value);
     }
 
-    void LogIn(string pin)
+    async Task LogIn(string pin)
     {
-        Authorize(pin);
+        await Authorize(pin);
 
         if (authorizationState == EnumAuthorizationState.Granted)
             AccessGranted();
     }
 
-    void TokenLogIn(Guid token)
+    async Task TokenLogIn(Guid token)
     {
         var pin = tokenManager.GetValue(Token.Value);
 
         if (pin is null)
             return;
 
-        Authorize(pin);
+        await Authorize(pin);
 
         if (authorizationState == EnumAuthorizationState.Granted)
             ShowMemo();
     }
 
-    void Authorize(string pin)
+    async Task Authorize(string pin)
     {
+        authorizationState = EnumAuthorizationState.Checking;
+        await Task.Delay(100);
+
         memoModel.Text = AesHelper.Decrypt(memoModel.EncryptedData, memoModel.IV, pin);
         authorizationState = memoModel.Text is null ? EnumAuthorizationState.Denied : EnumAuthorizationState.Granted;
         this.pin = pin;
@@ -103,10 +108,12 @@
 
     void AccessGranted()
     {
-        var timer = new System.Timers.Timer();
-        timer.Interval = 1000;
+        var timer = new System.Timers.Timer
+        {
+            Interval = 500,
+            AutoReset = false,
+        };
         timer.Elapsed += (s, e) => InvokeAsync(ShowMemo);
-        timer.AutoReset = false;
         timer.Enabled = true;
     }
 
