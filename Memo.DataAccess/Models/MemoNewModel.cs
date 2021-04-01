@@ -19,10 +19,11 @@ namespace Memo.DataAccess.Models
         [MinLength(1)]
         public string Text { get; set; }
 
-        public bool EnabledValidTo { get; set; }
-        [CheckValidTo]
-        public DateTime? ValidTo { get; set; }
+        public bool EnabledExpires { get; set; }
+        [CheckExpiryDate]
+        public DateTime? Expires { get; set; }
 
+        [Required]
         [RegularExpression("([0-9]+)", ErrorMessage = "Pin should be a number")]
         [MinLength(4)]
         public string Pin { get; set; }

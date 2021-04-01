@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Memo.DataAccess
 {
-    public class CheckValidToAttribute : ValidationAttribute
+    public class CheckExpiryDateAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\Add\" />
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 

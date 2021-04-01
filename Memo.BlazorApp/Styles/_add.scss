@@ -1,0 +1,123 @@
+﻿@import 'shared';
+
+.add-page__wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    align-items: start;
+    justify-items: stretch;
+    grid-template: "logo form ." auto ". form ." 1fr /1fr 2fr 1fr;
+    color: $blue-3;
+
+    input, textarea {
+        color: $blue-3;
+    }
+}
+
+.add-page__logo {
+    grid-area: logo;
+    justify-self: start;
+}
+
+.add-page__form {
+    grid-area: form;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-page__form-grid {
+    display: grid;
+    grid-template:
+        "expires-label expires" auto "pin-label pin" auto "pin-error pin-error" auto "confirm-label confirm" auto "confirm-error confirm-error" "button button" / 1fr 2fr;
+    align-self: center;
+}
+
+.add-page__form-row {
+    margin-top: 3rem;
+
+    &--tight {
+        margin-top: 1.5rem;
+    }
+
+    &--validation {
+        margin-top: 0.5rem;
+        text-align: center;
+    }
+}
+
+.add-page__url {
+    @include input;
+    opacity: .7;
+}
+
+.add-page__title {
+    @include input-wrapped;
+}
+
+.add-page__text {
+    @include input;
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+.add-page__label {
+    justify-self: end;
+    align-self: center;
+    margin-right: 1.5rem;
+
+    &--expires {
+        grid-area: expires-label;
+        white-space: nowrap;
+    }
+
+    &--pin {
+        grid-area: pin-label;
+    }
+
+    &--confirm {
+        grid-area: confirm-label;
+    }
+}
+
+.add-page__expires-date {
+    grid-area: expires;
+    @include input;
+    width: 17rem;
+    padding: 0;
+    text-align: center;
+}
+
+.add-page__pin {
+    grid-area: pin;
+    @include input-wrapped;
+    width: 17rem;
+
+    input {
+        text-align: center;
+    }
+
+    &--confirm {
+        grid-area: confirm;
+    }
+}
+
+.add-page__pin-error {
+    grid-area: pin-error;
+}
+
+.add-page__confirm-error {
+    grid-area: confirm-error;
+}
+
+.add-page__add-button {
+    grid-area: button;
+    @include button-text;
+    color: $green-1;
+    background-color: $green-9;
+    margin-bottom: 3rem;
+}
+
+.add-page__background-image {
+    @include page-background-image;
+}

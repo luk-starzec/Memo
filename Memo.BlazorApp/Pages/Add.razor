@@ -12,42 +12,50 @@
     <EditForm class="add-page__form" Model="@memo" OnValidSubmit="AddMemo">
         <DataAnnotationsValidator />
 
-        <input type="text" class="add-page__url" value="@memo.Url" placeholder="generated url" readonly />
+        <input type="text" class="add-page__url add-page__form-row" value="@memo.Url" placeholder="generated url" readonly />
 
-        <InputOnInput class="add-page__title" placeholder="title"
-                      @bind-Value="@memo.Title" ValidationFunction="()=>ValidateField(nameof(memo.Title))" />
-        <ValidationMessage For="() => memo.Title" />
-
-        <InputTextArea class="add-page__text" @bind-Value="memo.Text" placeholder="message" />
-        <ValidationMessage For="() => memo.Text" />
-
-        <div class="add-page__form-row">
-
-            <label class="add-page__label">
-                <InputCheckbox class="add-page__expires-checkbox" @bind-Value="memo.EnabledValidTo" />
-                Expires:
-            </label>
-
-            <InputDate class="add-page__expires-date" @bind-Value="memo.ValidTo" />
-
+        <ValidationInput class="add-page__title add-page__form-row" placeholder="title"
+                      @bind-Value="@memo.Title" ValidationFunction="()=>ValidateField(nameof(memo.Title))" OnTextChanged="GenerateUrl" />
+        <div class="add-page__form-row--validation">
+            <ValidationMessage For="() => memo.Title" />
         </div>
 
-        <label class="add-page__label">
-            Pin:
-            <InputOnInput class="add-page__pin" @bind-Value="memo.Pin" InputType="password" ValidationFunction="()=>ValidateField(nameof(memo.Pin))" />
-        </label>
-        <ValidationMessage For="() => memo.Pin" />
+        <InputTextArea class="add-page__text add-page__form-row" @bind-Value="memo.Text" placeholder="message" />
+        <div class="add-page__form-row--validation">
+            <ValidationMessage For="() => memo.Text" />
+        </div>
 
-        <label class="add-page__label">
-            Confirm:
-            <InputOnInput class="add-page__pin" @bind-Value="memo.ConfirmPin" InputType="password" ValidationFunction="()=>ValidateField(nameof(memo.ConfirmPin))" />
-        </label>
-        <ValidationMessage For="() => memo.ConfirmPin" />
+        <div class="add-page__form-grid">
+            <label class="add-page__label add-page__label--expires add-page__form-row">
+                <InputCheckbox class="add-page__expires-checkbox" @bind-Value="memo.EnabledExpires" />
+                Expires:
+            </label>
+            <InputDate class="add-page__expires-date add-page__form-row" @bind-Value="memo.Expires" />
 
-        <button type="submit" class="add-page__add-button">
-            <img src="/assets/add-icon.svg" />
-            <span>Add memo</span>
-        </button>
+            <label class="add-page__label add-page__label--pin add-page__form-row" for="pin">
+                Pin:
+            </label>
+            <ValidationInput class="add-page__pin add-page__form-row" id="pin"
+                          @bind-Value="memo.Pin" InputType="password" ValidationFunction="()=>ValidateField(nameof(memo.Pin))" />
+            <div class="add-page__pin-error add-page__form-row--validation">
+                <ValidationMessage For="() => memo.Pin" />
+            </div>
+
+            <label class="add-page__label add-page__label--confirm add-page__form-row--tight" for="confirm">
+                Confirm:
+            </label>
+            <ValidationInput class="add-page__pin add-page__pin--confirm add-page__form-row--tight" id="confirm"
+                          @bind-Value="memo.ConfirmPin" InputType="password" ValidationFunction="()=>ValidateField(nameof(memo.ConfirmPin))" />
+            <div class="add-page__confirm-error add-page__form-row--validation">
+                <ValidationMessage For="() => memo.ConfirmPin" />
+            </div>
+
+            <button type="submit" class="add-page__add-button add-page__form-row">
+                <img src="/assets/add-icon.svg" />
+                <span>Add memo</span>
+            </button>
+
+        </div>
 
     </EditForm>
 
@@ -60,9 +68,6 @@
 
     bool ValidateField(string field)
     {
-        if (field == nameof(memo.Title))
-            GenerateUrl();
-
         var errors = memo.Validate();
         return !errors.Where(r => r.MemberNames.Contains(field)).Any();
     }

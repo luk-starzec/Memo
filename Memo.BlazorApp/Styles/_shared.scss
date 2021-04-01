@@ -1,0 +1,114 @@
+﻿$page-background-color: #F4F8FB;
+
+$gray: #E5E5E5;
+
+$blue-1: #263540;
+$blue-3: #394F60;
+$blue-5: #7F9CB3;
+$blue-7: #90B7D5;
+$blue-9: #DAE7F1;
+
+$green-1: #33580E;
+$green-5: #669933;
+$green-9: #D7F4B9;
+
+$red-3: #C03F3F;
+$red-5: #D98C8C;
+$red-9: #FDDEDE;
+
+$shadow-1: 5px 5px 10px rgba(57, 79, 96, 0.05);
+
+$mid-brakepoint: 600px;
+
+$max-width: 1440px;
+
+@mixin page-background-image {
+    position: fixed;
+    right: 0;
+    bottom: 2rem;
+    z-index: -1;
+}
+
+@mixin button {
+    border: none;
+    border-radius: 1rem;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    transition: transform ease .1s;
+
+    img, svg {
+        width: 2rem;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+
+        img {
+            opacity: .5;
+        }
+    }
+    &:active{
+        transform: scale(.9);
+    }
+}
+
+@mixin button-text {
+    @include button;
+    padding: 0 2.5rem;
+
+    img, svg {
+        margin-right: 1rem;
+    }
+
+    span {
+        flex-grow: 1;
+    }
+}
+
+@mixin input-simple {
+    height: 4rem;
+    padding: 0 2rem;
+    border: none;
+    border-radius: 1rem;
+    outline: none;
+
+    &::placeholder {
+        color: $gray;
+    }
+}
+
+@mixin input {
+    @include input-simple;
+
+    input:focus:not(.valid.modified):not(.invalid)s {
+        box-shadow: inset 0 0 0 1px $blue-7;
+    }
+}
+
+@mixin input-wrapped {
+    input {
+        @include input-simple;
+    }
+
+    &:not(.valid.modified):not(.invalid) {
+        input:focus {
+            box-shadow: inset 0 0 0 1px $blue-7;
+        }
+    }
+}
+
+@mixin logo {
+    align-self: start;
+    justify-self: start;
+    margin: 3rem 0 0 3rem;
+}
+
+@mixin top-right {
+    align-self: start;
+    justify-self: end;
+    margin: 3rem 3rem 0 0;
+}

@@ -12,5 +12,6 @@ namespace Memo.DataAccess.Models
         public string IV { get; set; }
         public string Text { get; set; }
         public DateTime Created { get; set; }
+        public DateTime? Expires { get; set; }
     }
 }

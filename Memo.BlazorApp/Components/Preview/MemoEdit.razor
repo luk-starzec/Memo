@@ -1,0 +1,41 @@
+﻿
+<EditForm class="memo-edit__wrapper" Model="@Memo" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+
+    <h3 class="memo-edit__title">
+        @Memo.Title
+    </h3>
+
+    <InputTextArea class="memo-edit__text" @bind-Value="Memo.Text" placeholder="message" />
+    <ValidationMessage For="() => Memo.Text" />
+
+    <div class="memo-edit__grid">
+
+        <label class="memo-edit__expires-label">
+            <InputCheckbox class="memo-edit__expires-checkbox" @bind-Value="Memo.EnabledExpires" />
+            Expires:
+        </label>
+        <InputDate class="memo-edit__expires-date" @bind-Value="Memo.Expires" />
+        
+        <div class="memo-edit__expires-validation">
+
+        </div>
+        
+        <button type="submit" class="memo-edit__save-button">
+            <SvgImage SvgUrl="/assets/check-icon.svg" />
+            <span>Save</span>
+        </button>
+
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public MemoEditModel Memo { get; set; }
+    [Parameter]
+    public EventCallback<MemoEditModel> OnSave { get; set; }
+
+    async Task Save() => await OnSave.InvokeAsync(Memo);
+
+}

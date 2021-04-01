@@ -14,8 +14,8 @@ namespace Memo.DataAccess.Models
         [MinLength(1)]
         public string Text { get; set; }
 
-        public bool EnabledValidTo { get; set; }
-        [CheckValidTo]
-        public DateTime? ValidTo { get; set; }
+        public bool EnabledExpires { get; set; }
+        [CheckExpiryDate]
+        public DateTime? Expires { get; set; }
     }
 }

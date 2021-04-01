@@ -1,0 +1,48 @@
+﻿
+<div class="memo-view__wrapper">
+
+    <h3 class="memo-view__title">
+        @Memo.Title
+    </h3>
+
+    <div class="memo-view__text">
+        @Memo.Text
+    </div>
+
+    <div class="@cssCreated">
+        <span class="memo-view__date-label">
+            Created:
+        </span>
+        @Memo.Created.ToShortDateString()
+    </div>
+
+    @if (expires)
+    {
+        <div class="memo-view__date">
+            <span class="memo-view__date-label">
+                Expires:
+            </span>
+            @Memo.Expires.Value.ToShortDateString()
+        </div>
+    }
+
+    @*<div>
+        Url: @Memo.Url <br />
+        Title: @Memo.Title <br />
+        Created: @Memo.Created.ToString("yyyy-MM-dd HH:mm:ss") <br />
+        Text: @Memo.Text <br />
+        IV: @Memo.IV <br />
+        Data: @Memo.EncryptedData <br />
+    </div>*@
+
+</div>
+
+
+@code {
+    [Parameter]
+    public MemoReadModel Memo { get; set; }
+
+    bool expires => Memo.Expires is not null;
+    string cssCreated => expires ? "memo-view__date" : "memo-view__date memo-view__date--centered";
+
+}

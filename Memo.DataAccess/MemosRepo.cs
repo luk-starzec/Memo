@@ -48,12 +48,12 @@ namespace Memo.DataAccess
             var encrypted = AesHelper.Encrypt(memo.Text, memo.Pin);
 
             var sql =
-                "insert into memo.Memos(Url, Title, Created, ValidTo, IV, Data) values (@url, @title, GETDATE(), @validTo,  @iv, @data)";
+                "insert into memo.Memos(Url, Title, Created, Expires, IV, Data) values (@url, @title, GETDATE(), @expires,  @iv, @data)";
             var param = new
             {
                 url = memo.Url,
                 title = memo.Title,
-                validTo = memo.ValidTo,
+                expires = memo.Expires,
                 iv = encrypted.iv,
                 data = encrypted.data,
             };
@@ -68,11 +68,11 @@ namespace Memo.DataAccess
         {
             var encrypted = AesHelper.Encrypt(memo.Text, pin);
 
-            var sql = "update memo.Memos set IV = @iv, Data = @data, ValidTo = @validTo where Url = @url";
+            var sql = "update memo.Memos set IV = @iv, Data = @data, Expires = @expires where Url = @url";
             var param = new
             {
                 url = memo.Url,
-                validTo = memo.ValidTo,
+                expires = memo.Expires,
                 iv = encrypted.iv,
                 data = encrypted.data,
             };
@@ -95,7 +95,7 @@ namespace Memo.DataAccess
         private async Task<MemoRow> GetMemoRow(string url)
         {
             var sql =
-                "select * from memo.Memos m where m.Url = @url and (m.ValidTo is null or m.ValidTo >= cast(GETDATE() as date))";
+                "select * from memo.Memos m where m.Url = @url and (m.Expires is null or m.Expires >= cast(GETDATE() as date))";
             var param = new { url = url };
 
             return (await db.LoadData<MemoRow, dynamic>(sql, param)).FirstOrDefault();
@@ -110,8 +110,8 @@ namespace Memo.DataAccess
                 {
                     Url = row.Url,
                     Title = row.Title,
-                    EnabledValidTo = row.ValidTo.HasValue,
-                    ValidTo = row.ValidTo,
+                    EnabledExpires = row.Expires.HasValue,
+                    Expires = row.Expires,
                     Text = text,
                 };
         }
@@ -123,6 +123,7 @@ namespace Memo.DataAccess
                 EncryptedData = row.Data,
                 IV = row.IV,
                 Created = row.Created,
+                Expires = row.Expires,
             };
     }
 }
