@@ -15,12 +15,12 @@
             <InputCheckbox class="memo-edit__expires-checkbox" @bind-Value="Memo.EnabledExpires" />
             Expires:
         </label>
-        <InputDate class="memo-edit__expires-date" @bind-Value="Memo.Expires" />
-        
+        <InputDate class="memo-edit__expires-date" @bind-Value="Memo.Expires" disabled="@(!Memo.EnabledExpires)" />
+
         <div class="memo-edit__expires-validation">
 
         </div>
-        
+
         <button type="submit" class="memo-edit__save-button">
             <SvgImage SvgUrl="/assets/check-icon.svg" />
             <span>Save</span>

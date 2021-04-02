@@ -166,7 +166,9 @@
 
 .add-page__logo {
   grid-area: logo;
-  justify-self: start; }
+  align-self: start;
+  justify-self: start;
+  margin: 3rem 0 0 3rem; }
 
 .add-page__form {
   grid-area: form;
@@ -174,44 +176,50 @@
   display: flex;
   flex-direction: column; }
 
-.add-page__form-grid {
+.add-page__background-image {
+  position: fixed;
+  right: 0;
+  bottom: 2rem;
+  z-index: -1; }
+
+.memo-add__form-grid {
   display: grid;
   grid-template: "expires-label expires" auto "pin-label pin" auto "pin-error pin-error" auto "confirm-label confirm" auto "confirm-error confirm-error" "button button" / 1fr 2fr;
   align-self: center; }
 
-.add-page__form-row {
+.memo-add__row {
   margin-top: 3rem; }
-  .add-page__form-row--tight {
+  .memo-add__row--tight {
     margin-top: 1.5rem; }
-  .add-page__form-row--validation {
+  .memo-add__row--validation {
     margin-top: 0.5rem;
     text-align: center; }
 
-.add-page__url {
+.memo-add__url {
   height: 4rem;
   padding: 0 2rem;
   border: none;
   border-radius: 1rem;
   outline: none;
   opacity: .7; }
-  .add-page__url::placeholder {
+  .memo-add__url::placeholder {
     color: #E5E5E5; }
-  .add-page__url input:focus:not(.valid.modified):not(.invalid)s {
+  .memo-add__url input:focus:not(.valid.modified):not(.invalid)s {
     box-shadow: inset 0 0 0 1px #90B7D5; }
 
-.add-page__title input {
+.memo-add__title input {
   height: 4rem;
   padding: 0 2rem;
   border: none;
   border-radius: 1rem;
   outline: none; }
-  .add-page__title input::placeholder {
+  .memo-add__title input::placeholder {
     color: #E5E5E5; }
 
-.add-page__title:not(.valid.modified):not(.invalid) input:focus {
+.memo-add__title:not(.valid.modified):not(.invalid) input:focus {
   box-shadow: inset 0 0 0 1px #90B7D5; }
 
-.add-page__text {
+.memo-add__text {
   height: 4rem;
   padding: 0 2rem;
   border: none;
@@ -219,24 +227,24 @@
   outline: none;
   flex-grow: 1;
   padding: 2rem; }
-  .add-page__text::placeholder {
+  .memo-add__text::placeholder {
     color: #E5E5E5; }
-  .add-page__text input:focus:not(.valid.modified):not(.invalid)s {
+  .memo-add__text input:focus:not(.valid.modified):not(.invalid)s {
     box-shadow: inset 0 0 0 1px #90B7D5; }
 
-.add-page__label {
+.memo-add__label {
   justify-self: end;
   align-self: center;
   margin-right: 1.5rem; }
-  .add-page__label--expires {
+  .memo-add__label--expires {
     grid-area: expires-label;
     white-space: nowrap; }
-  .add-page__label--pin {
+  .memo-add__label--pin {
     grid-area: pin-label; }
-  .add-page__label--confirm {
+  .memo-add__label--confirm {
     grid-area: confirm-label; }
 
-.add-page__expires-date {
+.memo-add__expires-date {
   grid-area: expires;
   height: 4rem;
   padding: 0 2rem;
@@ -246,36 +254,38 @@
   width: 17rem;
   padding: 0;
   text-align: center; }
-  .add-page__expires-date::placeholder {
+  .memo-add__expires-date::placeholder {
     color: #E5E5E5; }
-  .add-page__expires-date input:focus:not(.valid.modified):not(.invalid)s {
+  .memo-add__expires-date input:focus:not(.valid.modified):not(.invalid)s {
     box-shadow: inset 0 0 0 1px #90B7D5; }
+  .memo-add__expires-date:disabled {
+    color: #E5E5E5; }
 
-.add-page__pin {
+.memo-add__pin {
   grid-area: pin;
   width: 17rem; }
-  .add-page__pin input {
+  .memo-add__pin input {
     height: 4rem;
     padding: 0 2rem;
     border: none;
     border-radius: 1rem;
     outline: none; }
-    .add-page__pin input::placeholder {
+    .memo-add__pin input::placeholder {
       color: #E5E5E5; }
-  .add-page__pin:not(.valid.modified):not(.invalid) input:focus {
+  .memo-add__pin:not(.valid.modified):not(.invalid) input:focus {
     box-shadow: inset 0 0 0 1px #90B7D5; }
-  .add-page__pin input {
+  .memo-add__pin input {
     text-align: center; }
-  .add-page__pin--confirm {
+  .memo-add__pin--confirm {
     grid-area: confirm; }
 
-.add-page__pin-error {
+.memo-add__pin-error {
   grid-area: pin-error; }
 
-.add-page__confirm-error {
+.memo-add__confirm-error {
   grid-area: confirm-error; }
 
-.add-page__add-button {
+.memo-add__add-button {
   grid-area: button;
   border: none;
   border-radius: 1rem;
@@ -290,24 +300,18 @@
   color: #33580E;
   background-color: #D7F4B9;
   margin-bottom: 3rem; }
-  .add-page__add-button img, .add-page__add-button svg {
+  .memo-add__add-button img, .memo-add__add-button svg {
     width: 2rem; }
-  .add-page__add-button:disabled {
+  .memo-add__add-button:disabled {
     cursor: not-allowed; }
-    .add-page__add-button:disabled img {
+    .memo-add__add-button:disabled img {
       opacity: .5; }
-  .add-page__add-button:active {
+  .memo-add__add-button:active {
     transform: scale(0.9); }
-  .add-page__add-button img, .add-page__add-button svg {
+  .memo-add__add-button img, .memo-add__add-button svg {
     margin-right: 1rem; }
-  .add-page__add-button span {
+  .memo-add__add-button span {
     flex-grow: 1; }
-
-.add-page__background-image {
-  position: fixed;
-  right: 0;
-  bottom: 2rem;
-  z-index: -1; }
 
 .preview-page__wrapper {
   display: grid;
@@ -549,6 +553,8 @@
     color: #E5E5E5; }
   .memo-edit__expires-date input:focus:not(.valid.modified):not(.invalid)s {
     box-shadow: inset 0 0 0 1px #90B7D5; }
+  .memo-edit__expires-date:disabled {
+    color: #E5E5E5; }
 
 .memo-edit__expires-validation {
   grid-column: 1/3; }

@@ -1,0 +1,71 @@
+﻿
+<EditForm Model="@Memo" OnValidSubmit="AddMemo" @attributes="InputAttributes">
+    <DataAnnotationsValidator />
+
+    <input type="text" class="memo-add__url memo-add__row" placeholder="generated url" readonly
+           value="@Memo.Url" />
+
+    <ValidationInput class="memo-add__title memo-add__row" placeholder="title"
+                     @bind-Value="@Memo.Title"
+                     ValidationFunction="() => ValidateField(nameof(Memo.Title))" OnTextChanged="GenerateUrl" />
+    <ValidationMessageRow For="() => Memo.Title" />
+
+    <InputTextArea class="memo-add__text memo-add__row" @bind-Value="Memo.Text" placeholder="message" />
+    <ValidationMessageRow For="() => Memo.Text" />
+
+    <div class="memo-add__form-grid">
+        <label class="memo-add__label memo-add__label--expires memo-add__row">
+            <InputCheckbox class="memo-add__expires-checkbox" @bind-Value="Memo.EnabledExpires" />
+            Expires:
+        </label>
+        <InputDate class="memo-add__expires-date memo-add__row" @bind-Value="Memo.Expires" disabled="@(!Memo.EnabledExpires)" />
+
+        <label class="memo-add__label memo-add__label--pin memo-add__row" for="pin">
+            Pin:
+        </label>
+        <ValidationInput class="memo-add__pin memo-add__row" id="pin"
+                         @bind-Value="Memo.Pin"
+                         InputType="password" ValidationFunction="() => ValidateField(nameof(Memo.Pin))" />
+        <ValidationMessageRow class="memo-add__pin-error" For="() => Memo.Pin" />
+
+        <label class="memo-add__label memo-add__label--confirm memo-add__row--tight" for="confirm">
+            Confirm:
+        </label>
+        <ValidationInput class="memo-add__pin memo-add__pin--confirm memo-add__row--tight" id="confirm"
+                         @bind-Value="Memo.ConfirmPin"
+                         InputType="password" ValidationFunction="() => ValidateField(nameof(Memo.ConfirmPin))" />
+        <ValidationMessageRow class="memo-add__confirm-error" For="() => Memo.ConfirmPin" />
+
+        <button type="submit" class="memo-add__add-button memo-add__row">
+            <img src="/assets/add-icon.svg" />
+            <span>Add memo</span>
+        </button>
+
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public MemoNewModel Memo { get; set; }
+    [Parameter]
+    public EventCallback<MemoNewModel> OnAdd { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; }
+
+
+    bool ValidateField(string field)
+    {
+        var errors = Memo.Validate();
+        return !errors.Where(r => r.MemberNames.Contains(field)).Any();
+    }
+
+    void GenerateUrl()
+    {
+        Memo.Url = Helpers.GetUrl(Memo.Title);
+        StateHasChanged();
+    }
+
+    async Task AddMemo(EditContext editContext) => await OnAdd.InvokeAsync(Memo);
+}

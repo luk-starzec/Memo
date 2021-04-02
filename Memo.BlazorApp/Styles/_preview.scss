@@ -249,6 +249,10 @@
 .memo-edit__expires-date {
     grid-column: 2/3;
     @include input;
+
+    &:disabled {
+        color: $gray;
+    }
 }
 
 .memo-edit__expires-validation {

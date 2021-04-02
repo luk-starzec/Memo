@@ -53,7 +53,7 @@ namespace Memo.DataAccess
             {
                 url = memo.Url,
                 title = memo.Title,
-                expires = memo.Expires,
+                expires = memo.EnabledExpires ? memo.Expires : null,
                 iv = encrypted.iv,
                 data = encrypted.data,
             };
@@ -72,7 +72,7 @@ namespace Memo.DataAccess
             var param = new
             {
                 url = memo.Url,
-                expires = memo.Expires,
+                expires = memo.EnabledExpires ? memo.Expires : null,
                 iv = encrypted.iv,
                 data = encrypted.data,
             };

@@ -9,7 +9,7 @@
 
     <Logo class="preview-page__logo" />
 
-    @if (memoModel is null)
+    @if (memoReadModel is null)
     {
         <img class="preview-page__loader" src="/assets/loader.svg" alt="loading..." />
     }
@@ -18,7 +18,8 @@
 
         @if (isLoggedIn)
         {
-            <MoreMenu @bind-IsExpanded="isMenuExpanded" OnEdit="EditMemo" OnRemove="RemoveMemo" OnCancelEdit="CancelEdit" IsEditMode="@isEditMode" />
+            <MoreMenu @bind-IsExpanded="isMenuExpanded"
+                      OnEdit="EditMemo" OnRemove="RemoveMemo" OnCancelEdit="CancelEdit" IsEditMode="@isEditMode" />
 
             @if (isEditMode)
             {
@@ -26,7 +27,7 @@
             }
             else
             {
-                <MemoView Memo="@memoModel" />
+                <MemoView Memo="@memoReadModel" />
             }
 
             <img class="preview-page__background-image" src="/assets/preview-image.svg" />
@@ -50,7 +51,7 @@
     [Parameter]
     public Guid? Token { get; set; }
 
-    MemoReadModel memoModel;
+    MemoReadModel memoReadModel;
     MemoEditModel memoEditModel;
 
     string pin;
@@ -67,7 +68,7 @@
     {
         var memo = await memosRepo.GetMemoReadModel(Url);
         if (memo is not null)
-            memoModel = memo;
+            memoReadModel = memo;
         else
             navigationManager.NavigateTo("/404");
 
@@ -101,8 +102,8 @@
         authorizationState = EnumAuthorizationState.Checking;
         await Task.Delay(100);
 
-        memoModel.Text = AesHelper.Decrypt(memoModel.EncryptedData, memoModel.IV, pin);
-        authorizationState = memoModel.Text is null ? EnumAuthorizationState.Denied : EnumAuthorizationState.Granted;
+        memoReadModel.Text = AesHelper.Decrypt(memoReadModel.EncryptedData, memoReadModel.IV, pin);
+        authorizationState = memoReadModel.Text is null ? EnumAuthorizationState.Denied : EnumAuthorizationState.Granted;
         this.pin = pin;
     }
 
@@ -123,17 +124,17 @@
         StateHasChanged();
     }
 
-    void CancelEdit()
-    {
-        memoEditModel = null;
-        isMenuExpanded = false;
-    }
-
     async Task EditMemo()
     {
         var memo = await memosRepo.GetMemoEditModel(Url, pin);
         if (memo is not null)
             memoEditModel = memo;
+        isMenuExpanded = false;
+    }
+
+    void CancelEdit()
+    {
+        memoEditModel = null;
         isMenuExpanded = false;
     }
 
@@ -152,8 +153,8 @@
         var updatedMemo = await memosRepo.UpdateMemo(memo, pin);
         if (updatedMemo is not null)
         {
-            memoModel = updatedMemo;
-            memoModel.Text = AesHelper.Decrypt(memoModel.EncryptedData, memoModel.IV, pin);
+            memoReadModel = updatedMemo;
+            memoReadModel.Text = AesHelper.Decrypt(memoReadModel.EncryptedData, memoReadModel.IV, pin);
 
             memoEditModel = null;
         }
