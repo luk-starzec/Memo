@@ -4,7 +4,7 @@
 
 <div class="index-page__wrapper">
 
-    <Logo class="index-page__logo" />
+    <LogoLarge class="index-page__logo" />
 
     <button class="index-page__add-button" title="add new memo" @onclick="OnClickAdd">
         <SvgImage SvgUrl="/assets/add-icon.svg" />
@@ -13,16 +13,19 @@
 
     <div class="index-page__search-wrapper">
 
-        <div class="index-page__search-label">
-            Go to your memo
+        <div class="index-page__search-grid">
+
+            <div class="index-page__search-label">
+                Go to your memo
+            </div>
+
+            <input class="index-page__search-input" type="text" placeholder="title"
+                   value="@title" @oninput="OnInput" @onkeydown="OnKeyDown" />
+
+            <button class="index-page__search-button" disabled=@buttonDisabled @onclick="OnClickGoTo" title="go to memo">
+                <img src="/assets/goto-icon.svg" / alt="go to">
+            </button>
         </div>
-
-        <input class="index-page__search-input" type="text" placeholder="title"
-               value="@title" @oninput="OnInput" @onkeydown="OnKeyDown" />
-
-        <button class="index-page__search-button" disabled=@buttonDisabled @onclick="OnClickGoTo" title="go to memo">
-            <img src="/assets/goto-icon.svg" / alt="go to">
-        </button>
 
     </div>
 

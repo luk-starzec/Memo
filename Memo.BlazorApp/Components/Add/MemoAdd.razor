@@ -2,8 +2,12 @@
 <EditForm Model="@Memo" OnValidSubmit="AddMemo" @attributes="InputAttributes">
     <DataAnnotationsValidator />
 
-    <input type="text" class="memo-add__url memo-add__row" placeholder="generated url" readonly
-           value="@Memo.Url" />
+    <div class="memo-add__row">
+        <LogoSmall class="memo-add__logo" />
+
+        <input type="text" class="memo-add__url" placeholder="generated url" readonly
+               value="@Memo.Url" />
+    </div>
 
     <ValidationInput class="memo-add__title memo-add__row" placeholder="title"
                      @bind-Value="@Memo.Title"

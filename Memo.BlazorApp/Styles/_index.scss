@@ -7,10 +7,18 @@
     justify-items: center;
     align-items: center;
     grid-template: "logo add" 1fr "search search" 1fr "footer footer" 1fr/1fr 1fr;
+
+    @media (max-width: $brakepoint-s) {
+        grid-template: "logo" auto "search" 3fr "add" 1fr "footer" auto/1fr;
+    }
 }
 
 .index-page__logo {
-    @include logo;
+    @include logo-position;
+
+    @media (max-width: $brakepoint-s) {
+        margin: 2rem 0 0 2rem;
+    }
 }
 
 .index-page__add-button {
@@ -24,6 +32,11 @@
     path {
         stroke: $blue-5;
     }
+
+    @media (max-width: $brakepoint-s) {
+        justify-self: center;
+        margin: 0;
+    }
 }
 
 .index-page__search-wrapper {
@@ -32,21 +45,41 @@
     color: $blue-1;
     align-self: start;
     display: grid;
-    grid-template: "label label" 1fr "input button" 1fr/1fr auto;
-    width: 60%;
-    max-width: 70rem;
-    padding: 4rem 10rem 6rem 10rem;
+    place-items: center;
+    width: clamp(40rem, 60%, 70rem);
+    padding: 4rem 3rem 6rem 3rem;
     border-radius: 3rem;
+
+    @media (max-width: $brakepoint-m) {
+        border-radius: 2rem;
+    }
+
+    @media (max-width: $brakepoint-s) {
+        max-width: 90vw;
+        margin: 0 2rem;
+        align-self: center;
+        padding: 2.5rem 2.5rem 3.5rem 2.5rem;
+        border-radius: 1rem;
+    }
+}
+
+.index-page__search-grid {
+    display: grid;
+    grid-template: "label label" 1fr "input button" 1fr/auto min-content;
+    width: 100%;
+    max-width: 50rem;
 }
 
 .index-page__search-label {
     grid-area: label;
+    font-size: $font-size-big;
 }
 
 .index-page__search-input {
     grid-area: input;
     @include input-simple;
     border-radius: 1rem 0 0 1rem;
+    width: 100%;
 
     &:focus {
         box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 3px $blue-9;
@@ -57,12 +90,17 @@
     grid-area: button;
     @include button;
     border-radius: 0 1rem 1rem 0;
-    width: 4rem;
     height: 4rem;
+    width: 4rem;
     background-color: $blue-9;
 
     img {
         width: 1rem;
+    }
+
+    @media (max-width: $brakepoint-s) {
+        height: 3rem;
+        width: 3rem;
     }
 }
 
@@ -76,4 +114,8 @@
 
 .index-page__background-image {
     @include page-background-image;
+
+    @media (min-width: $brakepoint-s) {
+        display: block;
+    }
 }

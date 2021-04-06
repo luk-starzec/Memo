@@ -109,7 +109,6 @@ namespace Memo.DataAccess
                 : new MemoEditModel
                 {
                     Url = row.Url,
-                    Title = row.Title,
                     EnabledExpires = row.Expires.HasValue,
                     Expires = row.Expires,
                     Text = text,

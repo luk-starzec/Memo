@@ -7,7 +7,7 @@
 
 <div class="preview-page__wrapper">
 
-    <Logo class="preview-page__logo" />
+    <Logo class="@cssLogo" />
 
     @if (memoReadModel is null)
     {
@@ -20,6 +20,10 @@
         {
             <MoreMenu @bind-IsExpanded="isMenuExpanded"
                       OnEdit="EditMemo" OnRemove="RemoveMemo" OnCancelEdit="CancelEdit" IsEditMode="@isEditMode" />
+
+            <h3 class="preview-page__title">
+                @memoReadModel.Title
+            </h3>
 
             @if (isEditMode)
             {
@@ -63,6 +67,7 @@
     bool isEditMode => memoEditModel is not null;
 
     string cssMask => $"preview-page__mask {(isMenuExpanded ? "preview-page__mask--visible" : "")}";
+    string cssLogo => isLoggedIn ? "preview-page__logo" : "preview-page__logo preview-page__logo--auth";
 
     protected override async Task OnInitializedAsync()
     {

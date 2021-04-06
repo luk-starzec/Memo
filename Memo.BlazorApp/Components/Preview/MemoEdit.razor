@@ -2,10 +2,6 @@
 <EditForm class="memo-edit__wrapper" Model="@Memo" OnValidSubmit="Save">
     <DataAnnotationsValidator />
 
-    <h3 class="memo-edit__title">
-        @Memo.Title
-    </h3>
-
     <InputTextArea class="memo-edit__text" @bind-Value="Memo.Text" placeholder="message" />
     <ValidationMessage For="() => Memo.Text" />
 

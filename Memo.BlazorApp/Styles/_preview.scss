@@ -1,15 +1,26 @@
 ﻿@import 'shared';
 
 .preview-page__wrapper {
+    height: 100vh;
     display: grid;
     grid-template:
-        "logo main menu" auto ". main ." 1fr / 1fr 2fr 1fr;
-    height: 100vh;
+        "logo title menu" auto ". main ." 1fr / 1fr 3fr 1fr;
+
+    @media (max-width: $brakepoint-s) {
+        grid-template:
+            "logo title menu" auto "main main main" 1fr / 1fr 2fr 1fr;
+    }
 }
 
 .preview-page__logo {
     grid-area: logo;
     @include logo;
+
+    &--auth {
+        @media(max-width: $brakepoint-s) {
+            display: none;
+        }
+    }
 }
 
 .preview-page__loader {
@@ -31,26 +42,27 @@
     bottom: 0;
     left: 0;
     background-color: $page-background-color;
-    opacity: .9;
-    visibility: collapse;
+    opacity: .7;
+    display: none;
 
     &--visible {
-        visibility: visible;
+        display: block;
     }
 }
 
 .auth-panel__wrapper {
-    grid-area: main;
+    grid-row: 1/3;
+    grid-column: 2/3;
     justify-self: center;
     align-self: center;
-    min-height: 60rem;
-    min-width: 32rem;
+    height: clamp(55rem, 70vh, 70rem);
+    width: clamp(30rem, 40vw, 50rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
-    background-color: #ffffff;
+    background-color: #fff;
     box-shadow: $shadow-1;
 }
 
@@ -120,9 +132,11 @@
 
 .auth-panel__pin {
     @include input;
-    border: 1px solid $blue-9;
+    border: 1px solid $page-background-color;
     text-align: center;
     margin: 1.5rem 0 3.5rem 0;
+    max-width: 21rem;
+    box-shadow: $shadow-inset;
 }
 
 .auth-panel__buttons-wrapper {
@@ -159,40 +173,53 @@
     }
 }
 
-
-.memo-view__wrapper {
-    height: 100vh;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto 1fr auto;
-    justify-items: center;
-    grid-row-gap: 3rem;
-    padding: 6rem 0 5rem 0;
+.preview-page__title {
+    grid-area: title;
+    align-self: center;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-top: 3rem;
+    text-align: center;
     color: $blue-3;
 }
 
-.memo-view__title {
-    grid-column: 1/3;
-    font-size: 1.1em;
-    font-weight: 400;
-    margin: 0;
-    color: $blue-1;
+@mixin view-layout {
+    grid-area: main;
+    height: 100%;
+    padding-bottom: 3rem;
+    color: $blue-3;
+
+    @media (max-width: $brakepoint-s) {
+        padding: 0 3rem 2rem 3rem;
+    }
+}
+
+.memo-view__wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    grid-row-gap: 3rem;
+    @include view-layout;
+
+    @media (max-width: $brakepoint-s) {
+        grid-row-gap: 2rem;
+    }
 }
 
 .memo-view__text {
     grid-column: 1/3;
     justify-self: stretch;
-    @include input;
-    height: auto;
-    padding: 2rem;
-    background-color: #fff;
+    background-color: $white-7;
+    @include input-text;
 }
 
 .memo-view__date {
     display: flex;
+    font-size: $font-size-small;
 
     span {
-        margin-right: 1rem;
+        margin-right: .7rem;
     }
 
     &--centered {
@@ -206,27 +233,19 @@
 
 
 .memo-edit__wrapper {
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 6rem 0 5rem 0;
-    color: $blue-3;
-}
+    @include view-layout;
 
-.memo-edit__title {
-    font-size: 1.1em;
-    font-weight: 400;
-    margin: 0;
-    text-align: center;
-    color: $blue-1;
+    .validation-message {
+        text-align: center;
+        margin-top: .5rem;
+    }
 }
 
 .memo-edit__text {
-    @include input;
     flex-grow: 1;
-    height: auto;
-    padding: 2rem;
-    margin: 3rem 0;
+    @include input-text;
 }
 
 .memo-edit__grid {
@@ -234,6 +253,11 @@
     display: grid;
     grid-template-columns: repeat(2, auto);
     grid-template-rows: repeat(3, auto);
+    margin-top: 3rem;
+
+    @media(max-width: $brakepoint-s) {
+        margin-top: 2rem;
+    }
 }
 
 .memo-edit__expires-label {
@@ -248,11 +272,7 @@
 
 .memo-edit__expires-date {
     grid-column: 2/3;
-    @include input;
-
-    &:disabled {
-        color: $gray;
-    }
+    @include input-date;
 }
 
 .memo-edit__expires-validation {
@@ -268,6 +288,10 @@
 
     path {
         fill: $blue-5;
+    }
+
+    @media(max-width: $brakepoint-s) {
+        margin-top: 2rem;
     }
 }
 
@@ -300,6 +324,21 @@
             transform: rotate(90deg);
         }
     }
+
+    @media (max-width: $brakepoint-s) {
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        transform: scaleY(0);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
 }
 
 .more-menu__list {
@@ -315,6 +354,8 @@
     color: $blue-1;
     background-color: #fff;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, .05);
+    transform-origin: top;
+    animation: slide-down ease .3s;
 }
 
 .more-menu__list-item {
@@ -345,6 +386,8 @@
     justify-items: center;
     align-items: center;
     padding-bottom: 1.5rem;
+    transform-origin: top;
+    animation: slide-down ease .2s;
 
     span {
         grid-column: 1/3;

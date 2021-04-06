@@ -9,6 +9,10 @@
     grid-template: "logo form ." auto ". form ." 1fr /1fr 2fr 1fr;
     color: $blue-3;
 
+    @media (max-width: $brakepoint-s) {
+        grid-template: "form" 1fr /1fr;
+    }
+
     input, textarea {
         color: $blue-3;
     }
@@ -17,6 +21,10 @@
 .add-page__logo {
     grid-area: logo;
     @include logo;
+
+    @media (max-width: $brakepoint-s) {
+        display: none;
+    }
 }
 
 .add-page__form {
@@ -24,6 +32,16 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: 2rem;
+
+    @media (max-width: $brakepoint-m) {
+        padding-top: 1rem;
+    }
+
+    @media (max-width: $brakepoint-s) {
+        width: 100vw;
+        padding: 0 3rem;
+    }
 }
 
 .add-page__background-image {
@@ -32,14 +50,20 @@
 
 
 .memo-add__form-grid {
+    align-self: center;
     display: grid;
     grid-template:
         "expires-label expires" auto "pin-label pin" auto "pin-error pin-error" auto "confirm-label confirm" auto "confirm-error confirm-error" "button button" / 1fr 2fr;
-    align-self: center;
 }
 
 .memo-add__row {
+    display: flex;
+    align-items: center;
     margin-top: 3rem;
+
+    @media (max-width: $brakepoint-s) {
+        margin-top: 2rem;
+    }
 
     &--tight {
         margin-top: 1.5rem;
@@ -51,9 +75,20 @@
     }
 }
 
+.memo-add__logo {
+    display: none;
+
+    @media (max-width: $brakepoint-s) {
+        display: block;
+        margin-right: 1.5rem;
+    }
+}
+
 .memo-add__url {
     @include input;
-    opacity: .7;
+    background-color: $white-7;
+    flex-grow: 1;
+    width: 100%;
 }
 
 .memo-add__title {
@@ -61,14 +96,15 @@
 }
 
 .memo-add__text {
-    @include input;
+    @include input-text;
     flex-grow: 1;
-    padding: 2rem;
 }
 
 .memo-add__label {
     justify-self: end;
     align-self: center;
+    display: flex;
+    align-items: center;
     margin-right: 1.5rem;
 
     &--expires {
@@ -85,16 +121,14 @@
     }
 }
 
+.memo-add__expires-checkbox {
+    margin: 0 1rem;
+}
+
 .memo-add__expires-date {
     grid-area: expires;
-    @include input;
-    width: 17rem;
-    padding: 0;
-    text-align: center;
-
-    &:disabled {
-        color: $gray;
-    }
+    @include input-date;
+    max-width: 17rem;
 }
 
 .memo-add__pin {

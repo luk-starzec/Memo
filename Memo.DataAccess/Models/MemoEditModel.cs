@@ -8,7 +8,6 @@ namespace Memo.DataAccess.Models
     public class MemoEditModel
     {
         public string Url { get; set; }
-        public string Title { get; set; }
 
         [Required]
         [MinLength(1)]

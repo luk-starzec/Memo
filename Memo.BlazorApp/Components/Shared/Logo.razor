@@ -1,9 +1,12 @@
 ﻿
-<a class="@(@class)" href="/">
-    <img src="/assets/logo-l.svg" alt="logo">
+<a @attributes="InputAttributes" href="/">
+    <img class="logo-l" src="/assets/logo-l.svg" alt="logo">
+    <img class="logo-m" src="/assets/logo-m.svg" alt="logo">
+    <img class="logo-s" src="/assets/logo-s.svg" alt="logo">
 </a>
 
 @code {
-    [Parameter]
-    public string @class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; }
+
 }

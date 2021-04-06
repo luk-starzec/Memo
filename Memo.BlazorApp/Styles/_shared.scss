@@ -2,6 +2,8 @@
 
 $gray: #E5E5E5;
 
+$white-7: #FBFDFE;
+
 $blue-1: #263540;
 $blue-3: #394F60;
 $blue-5: #7F9CB3;
@@ -17,17 +19,14 @@ $red-5: #D98C8C;
 $red-9: #FDDEDE;
 
 $shadow-1: 5px 5px 10px rgba(57, 79, 96, 0.05);
+$shadow-inset: inset 0px 0px 3px rgba(57, 79, 96, 0.05);
+$shadow-focus: inset 0 0 0 1px $blue-7;
 
-$mid-brakepoint: 600px;
+$font-size-normal: clamp(1.4rem, 2vmin, 1.8rem);
+$font-size-big: clamp(1.6rem, 2vmin, 1.8rem);
+$font-size-small: clamp(1.3rem, 2vmin, 1.8rem);
 
 $max-width: 1440px;
-
-@mixin page-background-image {
-    position: fixed;
-    right: 0;
-    bottom: 2rem;
-    z-index: -1;
-}
 
 @mixin button {
     border: none;
@@ -36,9 +35,11 @@ $max-width: 1440px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: $font-size-big;
     cursor: pointer;
     outline: none;
     transition: transform ease .1s;
+
 
     img, svg {
         width: 2rem;
@@ -51,14 +52,24 @@ $max-width: 1440px;
             opacity: .5;
         }
     }
-    &:active{
+
+    &:active {
         transform: scale(.9);
+    }
+
+    @media (max-width: $brakepoint-s) {
+        height: 4rem;
+
+        img, svg {
+            width: 1.7rem;
+        }
     }
 }
 
 @mixin button-text {
     @include button;
     padding: 0 2.5rem;
+    box-shadow: $shadow-1;
 
     img, svg {
         margin-right: 1rem;
@@ -75,17 +86,23 @@ $max-width: 1440px;
     border: none;
     border-radius: 1rem;
     outline: none;
+    box-shadow: $shadow-1;
 
     &::placeholder {
         color: $gray;
+    }
+
+    @media (max-width: $brakepoint-s) {
+        height: 3rem;
+        padding: 0 1.5rem;
     }
 }
 
 @mixin input {
     @include input-simple;
 
-    input:focus:not(.valid.modified):not(.invalid)s {
-        box-shadow: inset 0 0 0 1px $blue-7;
+    input:focus:not(.valid.modified):not(.invalid) {
+        box-shadow: $shadow-1, $shadow-focus
     }
 }
 
@@ -96,19 +113,113 @@ $max-width: 1440px;
 
     &:not(.valid.modified):not(.invalid) {
         input:focus {
-            box-shadow: inset 0 0 0 1px $blue-7;
+            box-shadow: $shadow-1, $shadow-focus
         }
     }
 }
 
-@mixin logo {
+@mixin input-text {
+    @include input;
+    padding: 2rem;
+    height: auto;
+    min-height: 6rem;
+
+    @media (max-width: $brakepoint-s) {
+        padding: 1.5rem;
+        height: auto;
+    }
+}
+
+@mixin input-date {
+    @include input;
+    min-width: 15rem;
+    padding: 0;
+    text-align: center;
+
+    &:disabled {
+        color: $gray;
+    }
+}
+
+$brakepoint-m: 950px;
+$brakepoint-s: 450px;
+
+@mixin logo-position {
     align-self: start;
     justify-self: start;
     margin: 3rem 0 0 3rem;
 }
 
+@mixin logo {
+    @include logo-position;
+
+    .logo-l {
+        display: block;
+    }
+
+    .logo-m {
+        display: none;
+    }
+
+    .logo-s {
+        display: none;
+    }
+
+    @media (max-width: $brakepoint-m) {
+
+        .logo-l {
+            display: none;
+        }
+
+        .logo-m {
+            display: block;
+        }
+
+        .logo-s {
+            display: none;
+        }
+    }
+
+    @media (max-width: $brakepoint-s + 100px) {
+        width: 50%;
+
+        .logo-l {
+            display: none;
+        }
+
+        .logo-m {
+            display: none;
+        }
+
+        .logo-s {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: $brakepoint-s) {
+        width: auto;
+
+        .logo-s {
+            width: auto;
+        }
+    }
+}
+
 @mixin top-right {
     align-self: start;
     justify-self: end;
-    margin: 3rem 3rem 0 0;
+    margin: 3rem 3rem 2rem 0;
+}
+
+
+@mixin page-background-image {
+    position: fixed;
+    right: 0;
+    bottom: 2rem;
+    z-index: -1;
+
+    @media (max-width: $brakepoint-m) {
+        display: none;
+    }
 }

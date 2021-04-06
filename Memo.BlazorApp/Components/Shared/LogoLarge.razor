@@ -1,0 +1,10 @@
+﻿
+<a @attributes="InputAttributes" href="/">
+    <img src="/assets/logo-l.svg" alt="logo">
+</a>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; }
+
+}
