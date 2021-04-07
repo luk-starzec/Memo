@@ -13,12 +13,9 @@ namespace Memo.DataAccess
             if (date is null)
                 return ValidationResult.Success;
 
-            if (date >= DateTime.Today)
-            {
-                return ValidationResult.Success;
-            }
-
-            return new ValidationResult(ErrorMessage ?? "Make sure your date is >= than today");
+            return date >= DateTime.Today
+                ? ValidationResult.Success
+                : new ValidationResult(ErrorMessage ?? "Date cannot be earlier than today", new[] { validationContext.MemberName });
         }
     }
 }

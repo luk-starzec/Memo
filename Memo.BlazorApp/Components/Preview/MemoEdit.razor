@@ -14,7 +14,7 @@
         <InputDate class="memo-edit__expires-date" @bind-Value="Memo.Expires" disabled="@(!Memo.EnabledExpires)" />
 
         <div class="memo-edit__expires-validation">
-
+            <ValidationMessage For="() => Memo.Expires" />
         </div>
 
         <button type="submit" class="memo-edit__save-button">

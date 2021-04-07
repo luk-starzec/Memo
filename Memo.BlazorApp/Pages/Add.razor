@@ -8,28 +8,15 @@
 
     <Logo class="add-page__logo" />
 
-    <MemoAdd class="add-page__form" Memo="@memo" />
+    <MemoAdd class="add-page__form" OnAdd="@AddMemo" />
 
     <img class="add-page__background-image" src="/assets/add-image.svg" />
 
 </div>
 
 @code {
-    MemoNewModel memo = new MemoNewModel();
 
-    bool ValidateField(string field)
-    {
-        var errors = memo.Validate();
-        return !errors.Where(r => r.MemberNames.Contains(field)).Any();
-    }
-
-    void GenerateUrl()
-    {
-        memo.Url = Helpers.GetUrl(memo.Title);
-        StateHasChanged();
-    }
-
-    async Task AddMemo(EditContext editContext)
+    async Task AddMemo(MemoNewModel memo)
     {
         if (await memosRepo.CreateMemo(memo))
         {

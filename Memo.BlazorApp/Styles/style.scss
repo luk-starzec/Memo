@@ -15,7 +15,8 @@
 }
 
 .invalid input,
-textarea.invalid {
+textarea.invalid,
+input.invalid{
     outline: none;
     box-shadow: $shadow-1, inset 0 0 0 2px $red-5;
 }

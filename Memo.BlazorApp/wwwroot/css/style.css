@@ -62,7 +62,7 @@
       justify-self: center;
       margin: 0; } }
 
-.index-page__search-wrapper {
+.search-box__wrapper {
   grid-area: search;
   background-color: #90B7D5;
   color: #263540;
@@ -73,27 +73,27 @@
   padding: 4rem 3rem 6rem 3rem;
   border-radius: 3rem; }
   @media (max-width: 950px) {
-    .index-page__search-wrapper {
+    .search-box__wrapper {
       border-radius: 2rem; } }
   @media (max-width: 450px) {
-    .index-page__search-wrapper {
+    .search-box__wrapper {
       max-width: 90vw;
       margin: 0 2rem;
       align-self: center;
       padding: 2.5rem 2.5rem 3.5rem 2.5rem;
       border-radius: 1rem; } }
 
-.index-page__search-grid {
+.search-box__grid {
   display: grid;
   grid-template: "label label" 1fr "input button" 1fr/auto min-content;
   width: 100%;
   max-width: 50rem; }
 
-.index-page__search-label {
+.search-box__label {
   grid-area: label;
-  font-size: clamp(1.6rem, 2vmin, 1.8rem); }
+  font-size: 1.2em; }
 
-.index-page__search-input {
+.search-box__input {
   grid-area: input;
   height: 4rem;
   padding: 0 2rem;
@@ -103,16 +103,16 @@
   box-shadow: 5px 5px 10px rgba(57, 79, 96, 0.05);
   border-radius: 1rem 0 0 1rem;
   width: 100%; }
-  .index-page__search-input::placeholder {
+  .search-box__input::placeholder {
     color: #E5E5E5; }
   @media (max-width: 450px) {
-    .index-page__search-input {
+    .search-box__input {
       height: 3rem;
       padding: 0 1.5rem; } }
-  .index-page__search-input:focus {
+  .search-box__input:focus {
     box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 3px #DAE7F1; }
 
-.index-page__search-button {
+.search-box__button {
   grid-area: button;
   border: none;
   border-radius: 1rem;
@@ -128,23 +128,23 @@
   height: 4rem;
   width: 4rem;
   background-color: #DAE7F1; }
-  .index-page__search-button img, .index-page__search-button svg {
+  .search-box__button img, .search-box__button svg {
     width: 2rem; }
-  .index-page__search-button:disabled {
+  .search-box__button:disabled {
     cursor: not-allowed; }
-    .index-page__search-button:disabled img {
+    .search-box__button:disabled img {
       opacity: .5; }
-  .index-page__search-button:active {
+  .search-box__button:active {
     transform: scale(0.9); }
   @media (max-width: 450px) {
-    .index-page__search-button {
+    .search-box__button {
       height: 4rem; }
-      .index-page__search-button img, .index-page__search-button svg {
+      .search-box__button img, .search-box__button svg {
         width: 1.7rem; } }
-  .index-page__search-button img {
+  .search-box__button img {
     width: 1rem; }
   @media (max-width: 450px) {
-    .index-page__search-button {
+    .search-box__button {
       height: 3rem;
       width: 3rem; } }
 
@@ -285,7 +285,7 @@
 .memo-add__form-grid {
   align-self: center;
   display: grid;
-  grid-template: "expires-label expires" auto "pin-label pin" auto "pin-error pin-error" auto "confirm-label confirm" auto "confirm-error confirm-error" "button button" / 1fr 2fr; }
+  grid-template: "expires-label expires" auto "expires-error expires-error" auto "pin-label pin" auto "pin-error pin-error" auto "confirm-label confirm" auto "confirm-error confirm-error" "button button" / 1fr 2fr; }
 
 .memo-add__row {
   display: flex;
@@ -406,6 +406,9 @@
     box-shadow: 5px 5px 10px rgba(57, 79, 96, 0.05), inset 0 0 0 1px #90B7D5; }
   .memo-add__expires-date:disabled {
     color: #E5E5E5; }
+
+.memo-add__expires-error {
+  grid-area: expires-error; }
 
 .memo-add__pin {
   grid-area: pin;
@@ -989,7 +992,8 @@
     box-shadow: 5px 5px 10px rgba(57, 79, 96, 0.05), inset 0 0 0 1px #669933; }
 
 .invalid input,
-textarea.invalid {
+textarea.invalid,
+input.invalid {
   outline: none;
   box-shadow: 5px 5px 10px rgba(57, 79, 96, 0.05), inset 0 0 0 2px #D98C8C; }
 
