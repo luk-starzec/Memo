@@ -39,7 +39,7 @@
     }
 }
 
-.index-page__search-wrapper {
+.search-box__wrapper {
     grid-area: search;
     background-color: $blue-7;
     color: $blue-1;
@@ -63,19 +63,19 @@
     }
 }
 
-.index-page__search-grid {
+.search-box__grid {
     display: grid;
     grid-template: "label label" 1fr "input button" 1fr/auto min-content;
     width: 100%;
     max-width: 50rem;
 }
 
-.index-page__search-label {
+.search-box__label {
     grid-area: label;
-    font-size: $font-size-big;
+    font-size: 1.2em;
 }
 
-.index-page__search-input {
+.search-box__input {
     grid-area: input;
     @include input-simple;
     border-radius: 1rem 0 0 1rem;
@@ -86,7 +86,7 @@
     }
 }
 
-.index-page__search-button {
+.search-box__button {
     grid-area: button;
     @include button;
     border-radius: 0 1rem 1rem 0;

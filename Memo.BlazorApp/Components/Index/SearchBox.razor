@@ -1,0 +1,45 @@
+﻿
+<div class="search-box__wrapper">
+
+    <div class="search-box__grid">
+
+        <div class="search-box__label">
+            Go to your memo
+        </div>
+
+        <input class="search-box__input" type="text" placeholder="title"
+               value="@title" @oninput="OnInput" @onkeydown="OnKeyDown" />
+
+        <button class="search-box__button" disabled=@buttonDisabled @onclick="OnClick" title="go to memo">
+            <img src="/assets/goto-icon.svg" alt="go to memo">
+        </button>
+    </div>
+
+</div>
+
+
+@code{
+    [Parameter]
+    public EventCallback<string> OnGoTo { get; set; }
+
+    string title;
+
+    bool buttonDisabled = true;
+
+    void OnInput(ChangeEventArgs e)
+    {
+        title = e.Value as string;
+        buttonDisabled = string.IsNullOrWhiteSpace(title);
+    }
+
+    async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            await OnGoTo.InvokeAsync(title);
+    }
+
+    async Task OnClick()
+    {
+        await OnGoTo.InvokeAsync(title);
+    }
+}
