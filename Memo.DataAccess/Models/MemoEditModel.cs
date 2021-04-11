@@ -8,7 +8,7 @@ namespace Memo.DataAccess.Models
         public string Url { get; set; }
 
         [Required(ErrorMessage = "Text is required")]
-        [MinLength(1)]
+        [MinLength(1, ErrorMessage = "Text can't be empty")]
         public string Text { get; set; }
 
         [CheckExpiryDate]

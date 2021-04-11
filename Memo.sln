@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memo.BlazorApp", "Memo.Blaz
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memo.DataAccess", "Memo.DataAccess\Memo.DataAccess.csproj", "{EE37AC49-B29F-413D-B937-9F318F20C00F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memo.DataAccess.Tests", "Memo.DataAccess.Tests\Memo.DataAccess.Tests.csproj", "{62C6C0C6-02C7-4DCD-AEE1-4E60EEEDF279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EE37AC49-B29F-413D-B937-9F318F20C00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE37AC49-B29F-413D-B937-9F318F20C00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE37AC49-B29F-413D-B937-9F318F20C00F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C6C0C6-02C7-4DCD-AEE1-4E60EEEDF279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C6C0C6-02C7-4DCD-AEE1-4E60EEEDF279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C6C0C6-02C7-4DCD-AEE1-4E60EEEDF279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C6C0C6-02C7-4DCD-AEE1-4E60EEEDF279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
