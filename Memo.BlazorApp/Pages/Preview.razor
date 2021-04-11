@@ -71,7 +71,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var memo = await memosRepo.GetMemoReadModel(Url);
+        var memo = await memosRepo.GetMemoReadModelAsync(Url);
         if (memo is not null)
             memoReadModel = memo;
         else
@@ -131,7 +131,7 @@
 
     async Task EditMemo()
     {
-        var memo = await memosRepo.GetMemoEditModel(Url, pin);
+        var memo = await memosRepo.GetMemoEditModelAsync(Url, pin);
         if (memo is not null)
             memoEditModel = memo;
         isMenuExpanded = false;
@@ -146,7 +146,7 @@
     async Task RemoveMemo()
     {
         isMenuExpanded = false;
-        if (await memosRepo.DeleteMemo(Url))
+        if (await memosRepo.DeleteMemoAsync(Url))
         {
             navigationManager.NavigateTo("/");
         }
@@ -155,7 +155,7 @@
 
     async Task UpdateMemo(MemoEditModel memo)
     {
-        var updatedMemo = await memosRepo.UpdateMemo(memo, pin);
+        var updatedMemo = await memosRepo.UpdateMemoAsync(memo, pin);
         if (updatedMemo is not null)
         {
             memoReadModel = updatedMemo;

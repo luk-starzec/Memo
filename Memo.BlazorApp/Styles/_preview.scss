@@ -350,7 +350,7 @@
     right: 0;
     padding: 0;
     margin: 0;
-    min-width: 15rem;
+    min-width: 16rem;
     color: $blue-1;
     background-color: #fff;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, .05);
@@ -377,6 +377,10 @@
         color: $blue-5;
         background-color: $blue-9;
     }
+
+    @media (max-width: $brakepoint-s) {
+        height: 4rem;
+    }
 }
 
 .more-menu__remove-question {
@@ -398,13 +402,16 @@
 
 .more-menu__question-button {
     @include button;
-    width: 4rem;
-    height: 3rem;
     font-size: .8em;
     background-color: $blue-9;
 
     &--yes {
         color: $red-3;
         background-color: $red-9;
+    }
+
+    @media (min-width: 0) {
+        width: 4rem;
+        height: 3rem;
     }
 }

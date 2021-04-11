@@ -6,10 +6,11 @@ namespace Memo.DataAccess.Interfaces
 {
     public interface IMemosRepo
     {
-        Task<MemoReadModel> GetMemoReadModel(string url);
-        Task<MemoEditModel> GetMemoEditModel(string url, string pin);
-        Task<bool> CreateMemo(MemoNewModel memo);
-        Task<MemoReadModel> UpdateMemo(MemoEditModel memo, string pin);
-        Task<bool> DeleteMemo(string url);
+        Task<MemoReadModel> GetMemoReadModelAsync(string url);
+        Task<MemoEditModel> GetMemoEditModelAsync(string url, string pin);
+        Task<string[]> ValidateMemoAsync(MemoNewModel memo);
+        Task<bool> CreateMemoAsync(MemoNewModel memo);
+        Task<MemoReadModel> UpdateMemoAsync(MemoEditModel memo, string pin);
+        Task<bool> DeleteMemoAsync(string url);
     }
 }

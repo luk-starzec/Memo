@@ -1,9 +1,7 @@
 ﻿using Memo.DataAccess.Interfaces;
 using Memo.DataAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Memo.DataAccess
@@ -17,33 +15,33 @@ namespace Memo.DataAccess
             this.db = db;
         }
 
-        //public async Task<List<MemoEditModel>> GetMemos()
-        //{
-        //    var sql = "select * from memo.Memos";
 
-        //    var rows = await db.LoadData<MemoRow, dynamic>(sql, new { });
-
-        //    return Rows2Models(rows).ToList();
-        //}
-
-        public async Task<MemoReadModel> GetMemoReadModel(string url)
+        public async Task<MemoReadModel> GetMemoReadModelAsync(string url)
         {
             var row = await GetMemoRow(url);
 
             return row is null ? null : Row2ReadModel(row);
         }
 
-        public async Task<MemoEditModel> GetMemoEditModel(string url, string pin)
+        public async Task<MemoEditModel> GetMemoEditModelAsync(string url, string pin)
         {
             var row = await GetMemoRow(url);
 
-            if (row is null)
-                return null;
-
-            return Row2EditModel(row, pin);
+            return row is null ? null : Row2EditModel(row, pin);
         }
 
-        public async Task<bool> CreateMemo(MemoNewModel memo)
+        public async Task<string[]> ValidateMemoAsync(MemoNewModel memo)
+        {
+            var errors = new List<string>();
+
+            var sameUrl = await GetMemoRow(memo.Url, includeExpired: true);
+            if (sameUrl != null)
+                errors.Add("Memo with same url already exists. Choose different memo title");
+
+            return errors.ToArray();
+        }
+
+        public async Task<bool> CreateMemoAsync(MemoNewModel memo)
         {
             var encrypted = AesHelper.Encrypt(memo.Text, memo.Pin);
 
@@ -63,8 +61,7 @@ namespace Memo.DataAccess
             return true;
         }
 
-
-        public async Task<MemoReadModel> UpdateMemo(MemoEditModel memo, string pin)
+        public async Task<MemoReadModel> UpdateMemoAsync(MemoEditModel memo, string pin)
         {
             var encrypted = AesHelper.Encrypt(memo.Text, pin);
 
@@ -79,10 +76,10 @@ namespace Memo.DataAccess
 
             await db.SaveData<dynamic>(sql, param);
 
-            return await GetMemoReadModel(memo.Url);
+            return await GetMemoReadModelAsync(memo.Url);
         }
 
-        public async Task<bool> DeleteMemo(string url)
+        public async Task<bool> DeleteMemoAsync(string url)
         {
             var sql = "delete memo.Memos where Url = @url";
             var param = new { url = url };
@@ -92,10 +89,11 @@ namespace Memo.DataAccess
             return true;
         }
 
-        private async Task<MemoRow> GetMemoRow(string url)
+        private async Task<MemoRow> GetMemoRow(string url, bool includeExpired = false)
         {
-            var sql =
-                "select * from memo.Memos m where m.Url = @url and (m.Expires is null or m.Expires >= cast(GETDATE() as date))";
+            var sql = "select * from memo.Memos m where m.Url = @url";
+            if (!includeExpired)
+                sql += " and (m.Expires is null or m.Expires >= cast(GETDATE() as date))";
             var param = new { url = url };
 
             return (await db.LoadData<MemoRow, dynamic>(sql, param)).FirstOrDefault();

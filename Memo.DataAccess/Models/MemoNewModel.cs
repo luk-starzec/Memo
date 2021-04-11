@@ -43,11 +43,6 @@ namespace Memo.DataAccess.Models
             var ctx = new ValidationContext(this);
             var results = new List<ValidationResult>();
 
-            //if (!Validator.TryValidateObject(this, ctx, results, true))
-            //{
-            //    return results;
-            //}
-
             Validator.TryValidateObject(this, ctx, results, true);
 
             return results;

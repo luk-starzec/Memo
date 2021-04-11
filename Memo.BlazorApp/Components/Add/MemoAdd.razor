@@ -13,34 +13,37 @@
     <ValidationInput class="memo-add__title memo-add__row" placeholder="title"
                      @bind-Value="@memo.Title"
                      ValidationFunction="() => ValidateField(nameof(memo.Title))" OnTextChanged="GenerateUrl" />
-    <ValidationMessageRow For="() => memo.Title" />
+    <ValidationMessage For="() => memo.Title" />
 
     <InputTextArea class="memo-add__text memo-add__row" @bind-Value="memo.Text" placeholder="message" />
-    <ValidationMessageRow For="() => memo.Text" />
+    <ValidationMessage For="() => memo.Text" />
 
     <div class="memo-add__form-grid">
-        <label class="memo-add__label memo-add__label--expires memo-add__row">
-            <InputCheckbox class="memo-add__expires-checkbox" @bind-Value="memo.EnabledExpires" />
+
+        <label class="memo-add__grid-row memo-add__grid-label memo-add__grid-label--expires">
+            <InputCheckbox @bind-Value="memo.EnabledExpires" />
             Expires:
         </label>
-        <InputDate class="memo-add__expires-date memo-add__row" @bind-Value="memo.Expires" disabled="@(!memo.EnabledExpires)" />
-        <ValidationMessageRow class="memo-add__expires-error" For="() => memo.Expires" />
+        <InputDate class="memo-add__grid-row memo-add__grid-value memo-add__grid-value--expires" @bind-Value="memo.Expires" disabled="@(!memo.EnabledExpires)" />
+        <ValidationMessage For="() => memo.Expires" />
 
-        <label class="memo-add__label memo-add__label--pin memo-add__row" for="pin">
+        <label class="memo-add__grid-row memo-add__grid-label" for="pin">
             Pin:
         </label>
-        <ValidationInput class="memo-add__pin memo-add__row" id="pin"
+        <ValidationInput class="memo-add__grid-row memo-add__grid-value memo-add__grid-value--pin" id="pin"
                          @bind-Value="memo.Pin"
                          InputType="password" ValidationFunction="() => ValidateField(nameof(memo.Pin))" />
-        <ValidationMessageRow class="memo-add__pin-error" For="() => memo.Pin" />
+        <ValidationMessage For="() => memo.Pin" />
 
-        <label class="memo-add__label memo-add__label--confirm memo-add__row--tight" for="confirm">
+        <label class="memo-add__grid-row--tight memo-add__grid-label" for="confirm">
             Confirm:
         </label>
-        <ValidationInput class="memo-add__pin memo-add__pin--confirm memo-add__row--tight" id="confirm"
+        <ValidationInput class="memo-add__grid-row--tight memo-add__grid-value memo-add__grid-value--pin" id="confirm"
                          @bind-Value="memo.ConfirmPin"
                          InputType="password" ValidationFunction="() => ValidateField(nameof(memo.ConfirmPin))" />
-        <ValidationMessageRow class="memo-add__confirm-error" For="() => memo.ConfirmPin" />
+        <ValidationMessage For="() => memo.ConfirmPin" />
+
+        <ErrorMessages Errors="@Errors" />
 
         <button type="submit" class="memo-add__add-button memo-add__row">
             <img src="/assets/add-icon.svg" />
@@ -55,9 +58,11 @@
     [Parameter]
     public EventCallback<MemoNewModel> OnAdd { get; set; }
 
+    [Parameter]
+    public string[] Errors { get; set; }
+
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> InputAttributes { get; set; }
-
 
     MemoNewModel memo = new MemoNewModel();
 

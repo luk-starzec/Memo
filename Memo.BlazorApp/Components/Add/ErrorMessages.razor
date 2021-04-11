@@ -1,0 +1,22 @@
+﻿
+@if (showErrors)
+{
+    <div class="memo-add__grid-row memo-add__grid-row--wide">
+
+        @foreach (var error in Errors)
+        {
+            <div class="validation-message">
+                @error
+            </div>
+        }
+
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string[] Errors { get; set; }
+
+    bool showErrors => Errors?.Any() == true;
+
+}

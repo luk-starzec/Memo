@@ -1,14 +1,14 @@
 ﻿@page "/add"
 
 @inject IMemosRepo memosRepo
-@inject ITokenManager tokenManager;
+@inject ITokenManager tokenManager
 @inject NavigationManager navigationManager
 
 <div class="add-page__wrapper">
 
     <Logo class="add-page__logo" />
 
-    <MemoAdd class="add-page__form" OnAdd="@AddMemo" />
+    <MemoAdd class="add-page__form" OnAdd="@AddMemo" Errors="@errors" />
 
     <img class="add-page__background-image" src="/assets/add-image.svg" />
 
@@ -16,14 +16,23 @@
 
 @code {
 
+    string[] errors;
+
     async Task AddMemo(MemoNewModel memo)
     {
-        if (await memosRepo.CreateMemo(memo))
+        errors = await memosRepo.ValidateMemoAsync(memo);
+        if (errors.Any())
+            return;
+
+        if (await memosRepo.CreateMemoAsync(memo))
         {
             var token = tokenManager.CreateToken(memo.Pin);
             navigationManager.NavigateTo($"/view/{memo.Url}/{token}");
         }
-        // TODO error handling
+        else
+        {
+            errors = new string[] { "An error occurred while saving memo. Try again later" };
+        }
     }
 
 }
