@@ -2,3 +2,4 @@ bin
 obj
 *.user
 .vs
+/Memo.BlazorApp/appsettings.Production.json
