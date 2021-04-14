@@ -8,7 +8,7 @@
         </div>
 
         <input class="search-box__input" type="text" placeholder="title"
-               value="@title" @oninput="OnInput" @onkeydown="OnKeyDown" @ref="inputRef" />
+               @bind-value="title" @bind-value:event="oninput" @onkeyup="OnKeyDown" @ref="inputRef" />
 
         <button class="search-box__button" disabled=@buttonDisabled @onclick="OnClick" title="go to memo">
             <img src="/assets/goto-icon.svg" alt="go to memo">
@@ -24,7 +24,7 @@
 
     string title;
 
-    bool buttonDisabled = true;
+    bool buttonDisabled => string.IsNullOrWhiteSpace(title);
 
     ElementReference inputRef;
 
@@ -34,20 +34,15 @@
             await inputRef.FocusAsync();
     }
 
-    void OnInput(ChangeEventArgs e)
-    {
-        title = e.Value as string;
-        buttonDisabled = string.IsNullOrWhiteSpace(title);
-    }
-
     async Task OnKeyDown(KeyboardEventArgs e)
     {
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
-            await OnGoTo.InvokeAsync(title);
+            await OnClick();
     }
 
     async Task OnClick()
     {
-        await OnGoTo.InvokeAsync(title);
+        if (!buttonDisabled)
+            await OnGoTo.InvokeAsync(title);
     }
 }

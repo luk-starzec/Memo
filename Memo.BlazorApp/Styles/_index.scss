@@ -2,11 +2,11 @@
 
 .index-page__wrapper {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: grid;
     justify-items: center;
     align-items: center;
-    grid-template: "logo add" 1fr "search search" 1fr "footer footer" 1fr/1fr 1fr;
+    grid-template: "logo add" minmax(13rem,1fr) "search search" 2fr "footer footer" auto/1fr 1fr;
 
     @media (max-width: $brakepoint-s) {
         grid-template: "logo" auto "search" 3fr "add" 1fr "footer" auto/1fr;

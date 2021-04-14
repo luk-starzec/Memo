@@ -9,6 +9,6 @@ namespace Memo.BlazorApp.Data
     public static class Helpers
     {
         public static string GetUrl(string title)
-            => HttpUtility.UrlEncode(title?.Trim().Replace(" ", "-").ToLower());
+            => HttpUtility.UrlEncode(title?.Trim().Replace(" ", "-").Replace(".", "-").ToLower());
     }
 }

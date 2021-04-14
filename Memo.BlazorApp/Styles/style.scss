@@ -31,7 +31,8 @@ input.invalid {
 }
 
 html {
-    font-size: 62.5% // 1rem === 10px
+    font-size: 62.5%; // 1rem === 10px
+    height: 100%;
 }
 
 body {
@@ -39,6 +40,7 @@ body {
     font-size: $font-size-normal;
     background-color: $page-background-color;
     color: $blue-1;
+    height: 100%;
 }
 
 

@@ -1,11 +1,11 @@
 ﻿@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 .index-page__wrapper {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template: "logo add" 1fr "search search" 1fr "footer footer" 1fr/1fr 1fr; }
+  grid-template: "logo add" minmax(13rem, 1fr) "search search" 2fr "footer footer" auto/1fr 1fr; }
   @media (max-width: 450px) {
     .index-page__wrapper {
       grid-template: "logo" auto "search" 3fr "add" 1fr "footer" auto/1fr; } }
@@ -44,7 +44,7 @@
     cursor: not-allowed; }
     .index-page__add-button:disabled img {
       opacity: .5; }
-  .index-page__add-button:active {
+  .index-page__add-button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .index-page__add-button {
@@ -134,7 +134,7 @@
     cursor: not-allowed; }
     .search-box__button:disabled img {
       opacity: .5; }
-  .search-box__button:active {
+  .search-box__button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .search-box__button {
@@ -158,6 +158,7 @@
   position: fixed;
   right: 0;
   bottom: 2rem;
+  max-height: 40%;
   z-index: -1; }
   @media (max-width: 950px) {
     .index-page__background-image {
@@ -169,7 +170,7 @@
 .not-found-page__wrapper {
   color: #394F60;
   font-size: 2em;
-  height: 100vh;
+  height: 100%;
   text-align: center;
   display: grid;
   grid-template-rows: 50fr 15fr 20fr 15fr;
@@ -210,7 +211,7 @@
 
 .add-page__wrapper {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: grid;
   align-items: start;
   justify-items: stretch;
@@ -280,6 +281,7 @@
   position: fixed;
   right: 0;
   bottom: 2rem;
+  max-height: 40%;
   z-index: -1; }
   @media (max-width: 950px) {
     .add-page__background-image {
@@ -454,7 +456,7 @@
     cursor: not-allowed; }
     .memo-add__add-button:disabled img {
       opacity: .5; }
-  .memo-add__add-button:active {
+  .memo-add__add-button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .memo-add__add-button {
@@ -467,7 +469,7 @@
     flex-grow: 1; }
 
 .preview-page__wrapper {
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template: "logo title menu" auto ". main ." 1fr / 1fr 3fr 1fr; }
   @media (max-width: 450px) {
@@ -522,6 +524,7 @@
   position: fixed;
   right: 0;
   bottom: 2rem;
+  max-height: 40%;
   z-index: -1; }
   @media (max-width: 950px) {
     .preview-page__background-image {
@@ -646,7 +649,7 @@
     cursor: not-allowed; }
     .auth-panel__button:disabled img {
       opacity: .5; }
-  .auth-panel__button:active {
+  .auth-panel__button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .auth-panel__button {
@@ -827,7 +830,7 @@
     cursor: not-allowed; }
     .memo-edit__save-button:disabled img {
       opacity: .5; }
-  .memo-edit__save-button:active {
+  .memo-edit__save-button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .memo-edit__save-button {
@@ -872,7 +875,7 @@
     cursor: not-allowed; }
     .more-menu__menu-button:disabled img {
       opacity: .5; }
-  .more-menu__menu-button:active {
+  .more-menu__menu-button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .more-menu__menu-button {
@@ -968,7 +971,7 @@
     cursor: not-allowed; }
     .more-menu__question-button:disabled img {
       opacity: .5; }
-  .more-menu__question-button:active {
+  .more-menu__question-button:active:not([disabled]) {
     transform: scale(0.9); }
   @media (max-width: 450px) {
     .more-menu__question-button {
@@ -1002,13 +1005,15 @@ input.invalid {
   box-sizing: border-box; }
 
 html {
-  font-size: 62.5%; }
+  font-size: 62.5%;
+  height: 100%; }
 
 body {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(1.4rem, 2vmin, 1.8rem);
   background-color: #F4F8FB;
-  color: #263540; }
+  color: #263540;
+  height: 100%; }
 
 .validation-input__wrapper {
   position: relative;
