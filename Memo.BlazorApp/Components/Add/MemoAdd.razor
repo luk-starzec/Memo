@@ -32,7 +32,7 @@
         </label>
         <ValidationInput class="memo-add__grid-row memo-add__grid-value memo-add__grid-value--pin" id="pin"
                          @bind-Value="memo.Pin"
-                         InputType="password" ValidationFunction="() => ValidateField(nameof(memo.Pin))" />
+                         IsPin="true" ValidationFunction="() => ValidateField(nameof(memo.Pin))" />
         <ValidationMessage For="() => memo.Pin" />
 
         <label class="memo-add__grid-row--tight memo-add__grid-label" for="confirm">
@@ -40,7 +40,7 @@
         </label>
         <ValidationInput class="memo-add__grid-row--tight memo-add__grid-value memo-add__grid-value--pin" id="confirm"
                          @bind-Value="memo.ConfirmPin"
-                         InputType="password" ValidationFunction="() => ValidateField(nameof(memo.ConfirmPin))" />
+                         IsPin="true" ValidationFunction="() => ValidateField(nameof(memo.ConfirmPin))" />
         <ValidationMessage For="() => memo.ConfirmPin" />
 
         <ErrorMessages Errors="@Errors" />

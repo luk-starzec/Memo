@@ -3,7 +3,9 @@
 <div class="@CssClass validation-input__wrapper">
 
     <input value="@CurrentValue"
-           type="@InputType"
+           type="@type"
+           pattern="@pattern"
+           inputmode="@inputmode"
            placeholder="@placeholder"
            @oninput="EventCallback.Factory.CreateBinder<string>(this, __value => CurrentValueAsString = __value, CurrentValueAsString)"
            @onkeyup="Validate" />
@@ -17,13 +19,17 @@
 
 @code{
     [Parameter]
-    public string InputType { get; set; } = "text";
+    public bool IsPin { get; set; }
     [Parameter]
     public string placeholder { get; set; }
     [Parameter]
     public Func<bool?> ValidationFunction { get; set; }
     [Parameter]
     public EventCallback<string> OnTextChanged { get; set; }
+
+    string type => IsPin ? "password" : "text";
+    string pattern => IsPin ? "[0-9]*" : "";
+    string inputmode => IsPin ? "numeric" : "";
 
     bool showValidationMarker = false;
     bool isValid = true;

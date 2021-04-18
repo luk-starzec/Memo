@@ -7,6 +7,8 @@
 
 <div class="preview-page__wrapper">
 
+    <PageTitle Title="@pageTitle" />
+
     <Logo class="@cssLogo" />
 
     @if (memoReadModel is null)
@@ -40,6 +42,8 @@
         {
             <AuthPanel AuthorizationState="@authorizationState" OnLogIn="LogIn" />
 
+            <a class="preview-page__index-link" href="/">back to start page</a>
+
             <img class="preview-page__background-image" src="/assets/login-image.svg" />
         }
 
@@ -58,6 +62,8 @@
     MemoReadModel memoReadModel;
     MemoEditModel memoEditModel;
 
+    string pageTitle => memoReadModel is null ?"Memo": $"Memo - {memoReadModel.Title}";
+
     string pin;
 
     EnumAuthorizationState authorizationState;
@@ -68,6 +74,7 @@
 
     string cssMask => $"preview-page__mask {(isMenuExpanded ? "preview-page__mask--visible" : "")}";
     string cssLogo => isLoggedIn ? "preview-page__logo" : "preview-page__logo preview-page__logo--auth";
+
 
     protected override async Task OnInitializedAsync()
     {

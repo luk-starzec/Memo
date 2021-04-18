@@ -23,6 +23,18 @@
     }
 }
 
+.preview-page__index-link {
+    grid-row: 4/5;
+    grid-column: 1/4;
+    justify-self: center;
+    margin-bottom: 1rem;
+    color: $blue-5;
+
+    @media(min-width: $brakepoint-s) {
+        display: none;
+    }
+}
+
 .preview-page__loader {
     position: absolute;
     width: 20vmin;
@@ -56,6 +68,7 @@
     justify-self: center;
     align-self: center;
     height: clamp(55rem, 70vh, 70rem);
+    max-height: 95%;
     width: clamp(30rem, 40vw, 50rem);
     display: flex;
     flex-direction: column;
@@ -68,6 +81,12 @@
 
 
 .padlock__wrapper {
+    max-height: 20vh;
+
+    svg {
+        height: 100%;
+    }
+
     #closed {
         opacity: 1;
         transition: opacity .3s;
@@ -134,8 +153,9 @@
     @include input;
     border: 1px solid $page-background-color;
     text-align: center;
-    margin: 1.5rem 0 3.5rem 0;
+    margin: 1.5rem 0 Min(3.5rem, 5vh) 0;
     max-width: 21rem;
+    max-height: 8vh;
     box-shadow: $shadow-inset;
 }
 
@@ -145,7 +165,7 @@
     grid-template-rows: repeat(4, 1fr);
     align-items: center;
     justify-items: center;
-    grid-gap: 3rem;
+    grid-gap: Min(3rem, 4vmin);
 }
 
 .auth-panel__button {
@@ -154,6 +174,7 @@
     @include button;
     width: 5rem;
     height: 5rem;
+    max-height: 7vh;
     font-size: 1.5em;
     display: flex;
     justify-content: center;

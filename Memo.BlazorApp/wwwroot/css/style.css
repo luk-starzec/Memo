@@ -265,7 +265,7 @@
 
 .add-page__form {
   grid-area: form;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding-top: 2rem; }
@@ -513,6 +513,16 @@
     .preview-page__logo--auth {
       display: none; } }
 
+.preview-page__index-link {
+  grid-row: 4/5;
+  grid-column: 1/4;
+  justify-self: center;
+  margin-bottom: 1rem;
+  color: #7F9CB3; }
+  @media (min-width: 450px) {
+    .preview-page__index-link {
+      display: none; } }
+
 .preview-page__loader {
   position: absolute;
   width: 20vmin;
@@ -548,6 +558,7 @@
   justify-self: center;
   align-self: center;
   height: clamp(55rem, 70vh, 70rem);
+  max-height: 95%;
   width: clamp(30rem, 40vw, 50rem);
   display: flex;
   flex-direction: column;
@@ -557,9 +568,13 @@
   background-color: #fff;
   box-shadow: 5px 5px 10px rgba(57, 79, 96, 0.05); }
 
-.padlock__wrapper #closed {
-  opacity: 1;
-  transition: opacity .3s; }
+.padlock__wrapper {
+  max-height: 20vh; }
+  .padlock__wrapper svg {
+    height: 100%; }
+  .padlock__wrapper #closed {
+    opacity: 1;
+    transition: opacity .3s; }
 
 .padlock__wrapper--opened #closed {
   opacity: 0; }
@@ -603,8 +618,9 @@
   box-shadow: 5px 5px 10px rgba(57, 79, 96, 0.05);
   border: 1px solid #F4F8FB;
   text-align: center;
-  margin: 1.5rem 0 3.5rem 0;
+  margin: 1.5rem 0 Min(3.5rem, 5vh) 0;
   max-width: 21rem;
+  max-height: 8vh;
   box-shadow: inset 0px 0px 3px rgba(57, 79, 96, 0.05); }
   .auth-panel__pin::placeholder {
     color: #E5E5E5; }
@@ -621,7 +637,7 @@
   grid-template-rows: repeat(4, 1fr);
   align-items: center;
   justify-items: center;
-  grid-gap: 3rem; }
+  grid-gap: Min(3rem, 4vmin); }
 
 .auth-panel__button {
   background-color: #DAE7F1;
@@ -638,6 +654,7 @@
   transition: transform ease .1s;
   width: 5rem;
   height: 5rem;
+  max-height: 7vh;
   font-size: 1.5em;
   display: flex;
   justify-content: center;

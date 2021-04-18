@@ -30,5 +30,10 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+
+    <script>
+        window.getUserAgent = () => navigator.userAgent
+        window.setPageTitle = (title) => document.title = title
+    </script>
 </body>
 </html>

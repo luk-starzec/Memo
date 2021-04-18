@@ -1,11 +1,13 @@
-﻿
+﻿@inject IJSRuntime js
+
 <div class="auth-panel__wrapper">
 
     <Padlock Error="@padlockError" Opened="@padlockOpened" />
 
     <div class="@cssMessage">@message</div>
 
-    <input type="password" class="auth-panel__pin" @bind="@pin" placeholder="PIN" />
+    <input type="password" pattern="[0-9]*" inputmode="numeric" class="auth-panel__pin"
+           @bind="@pin" @onkeyup="OnKeyDown" placeholder="PIN" readonly="@isMobile" @ref="inputRef" />
 
     <div class="auth-panel__buttons-wrapper">
 
@@ -47,13 +49,49 @@
     string cssMessage
         => $"auth-panel__message {(AuthorizationState == EnumAuthorizationState.Denied ? "auth-panel__message--error" : "")} {(AuthorizationState == EnumAuthorizationState.Granted ? "auth-panel__message--ok" : "")}";
 
-
     bool padlockError => AuthorizationState == EnumAuthorizationState.Denied;
     bool padlockOpened => AuthorizationState == EnumAuthorizationState.Granted;
 
-    void OnClickNumber(int number) => pin += number.ToString();
+    ElementReference inputRef;
 
-    void OnClickClear() => pin = string.Empty;
+    bool isMobile;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var userAgent = await js.InvokeAsync<string>("getUserAgent");
+            isMobile = Helpers.IsMobile(userAgent);
+            if (isMobile)
+                StateHasChanged();
+
+            await FocusInput();
+        }
+    }
+
+
+    async Task FocusInput()
+    {
+        await inputRef.FocusAsync();
+    }
+
+    async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            await OnClickOk();
+    }
+
+    async Task OnClickNumber(int number)
+    {
+        pin += number.ToString();
+        await FocusInput();
+    }
+
+    async Task OnClickClear()
+    {
+        pin = string.Empty;
+        await FocusInput();
+    }
 
     async Task OnClickOk() => await OnLogIn.InvokeAsync(pin);
 

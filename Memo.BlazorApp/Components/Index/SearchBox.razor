@@ -8,7 +8,7 @@
         </div>
 
         <input class="search-box__input" type="text" placeholder="title"
-               @bind-value="title" @bind-value:event="oninput" @onkeyup="OnKeyDown" @ref="inputRef" />
+               @bind-value="title" @bind-value:event="oninput" @onkeyup="OnKeyUp" @ref="inputRef" />
 
         <button class="search-box__button" disabled=@buttonDisabled @onclick="OnClick" title="go to memo">
             <img src="/assets/goto-icon.svg" alt="go to memo">
@@ -34,9 +34,9 @@
             await inputRef.FocusAsync();
     }
 
-    async Task OnKeyDown(KeyboardEventArgs e)
+    async Task OnKeyUp(KeyboardEventArgs e)
     {
-        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        if (e.Key == "Enter" || e.Key == "NumpadEnter")
             await OnClick();
     }
 
