@@ -28,7 +28,7 @@
     public EventCallback<string> OnTextChanged { get; set; }
 
     string type => IsPin ? "password" : "text";
-    string pattern => IsPin ? "[0-9]*" : "";
+    string pattern => IsPin ? "[0-9]*" : "*";
     string inputmode => IsPin ? "numeric" : "";
 
     bool showValidationMarker = false;
